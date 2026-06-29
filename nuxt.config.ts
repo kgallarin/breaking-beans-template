@@ -1,30 +1,31 @@
 import { fileURLToPath } from 'node:url';
+
+import tailwindcss from '@tailwindcss/vite';
 import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
-    compatibilityDate: '2025-07-15',
-    devtools: { enabled: true },
-    components: [
-        {
-            path: '~/components',
-            pathPrefix: false,
-        }
-    ],
-    imports: {
-      dirs: ['composables/**']
+  compatibilityDate: '2025-07-15',
+  css: ['~/assets/styles/app.css'],
+  devtools: { enabled: true },
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
     },
-    vite: {
-        optimizeDeps: {
-            include: [
-                '@vue/devtools-core',
-                '@vue/devtools-kit',
-            ]
-        }
+  ],
+  imports: {
+    dirs: ['composables/**'],
+  },
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['@vue/devtools-core', '@vue/devtools-kit'],
     },
-    alias: {
-        '@': fileURLToPath(new URL('./app', import.meta.url)),
-        '@components': fileURLToPath(new URL('./app/components', import.meta.url)),
-        '@pages': fileURLToPath(new URL('./app/pages', import.meta.url)),
-        '@utils': fileURLToPath(new URL('./utils', import.meta.url))
-    }
+  },
+  alias: {
+    '@': fileURLToPath(new URL('./app', import.meta.url)),
+    '@components': fileURLToPath(new URL('./app/components', import.meta.url)),
+    '@pages': fileURLToPath(new URL('./app/pages', import.meta.url)),
+    '@utils': fileURLToPath(new URL('./utils', import.meta.url)),
+  },
 });

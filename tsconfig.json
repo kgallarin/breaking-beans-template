@@ -4,20 +4,6 @@
   "compilerOptions": {
     "types": ["node", "nuxt"]
   },
-  "references": [
-    {
-      "path": "./.nuxt/tsconfig.app.json"
-    },
-    {
-      "path": "./.nuxt/tsconfig.server.json"
-    },
-    {
-      "path": "./.nuxt/tsconfig.shared.json"
-    },
-    {
-      "path": "./.nuxt/tsconfig.node.json"
-    }
-  ],
   "include": [
     "./.nuxt/nuxt.d.ts",
     "./app/**/*",
