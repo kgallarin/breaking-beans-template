@@ -1,0 +1,62 @@
+{
+  "name": "breaking-beans-nuxt",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "tsc": "vue-tsc --noEmit",
+    "tsc:watch": "vue-tsc --watch",
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "test:unit": "vitest",
+    "test:ci": "vitest --run",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^7.3.0",
+    "@fortawesome/free-solid-svg-icons": "^7.3.0",
+    "@fortawesome/vue-fontawesome": "^3.3.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia/nuxt": "^0.11.3",
+    "@tailwindcss/vite": "^4.3.1",
+    "@vee-validate/nuxt": "^4.15.1",
+    "@vee-validate/zod": "^4.15.1",
+    "@vueuse/components": "^14.3.0",
+    "@vueuse/core": "^14.3.0",
+    "clsx": "^2.1.1",
+    "nuxt": "^4.4.8",
+    "pinia": "^3.0.4",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.1",
+    "vee-validate": "^4.15.1",
+    "vite": "^8.1.0",
+    "vue": "^3.5.38",
+    "vue-router": "^5.1.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^4.0.3",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/vue": "^8.1.0",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "^26.0.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.9.2",
+    "globals": "^17.7.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.1",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.0",
+    "vitest": "^4.1.9",
+    "vue-tsc": "^3.3.5"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
+  }
+}
