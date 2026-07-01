@@ -1,5 +1,13 @@
 <script setup lang="ts">
-  const navLinks = computed(() => []);
+  import type { NavLink } from '~~/types/App';
+
+  const navLinks: ComputedRef<NavLink[]> = computed(() => [
+    {
+      label: 'home',
+      href: '/',
+      auth: false,
+    },
+  ]);
 </script>
 
 <template>
