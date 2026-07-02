@@ -13,7 +13,7 @@ export function useApiFetchList<TNode, TPayload>(
   extract: (payload: TPayload) => ShopifyConnection<TNode | undefined | null>,
   options?: UseFetchOptions<ShopifyApiResponse<TPayload>>,
 ) {
-  const { $api } = useRuntimeConfig();
+  const { $api } = useNuxtApp();
 
   const { data, status, error, refresh, execute } = useFetch<ShopifyApiResponse<TPayload>>(url, {
     $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
