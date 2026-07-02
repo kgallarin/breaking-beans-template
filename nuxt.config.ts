@@ -7,14 +7,13 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   css: ['~/assets/styles/app.css'],
   runtimeConfig: {
-    shopifyClientSecret: process.env.SHOPIFY_CLIENT_SECRET,
-    shopifyTokenUrl: process.env.SHOPIFY_TOKEN_URL,
+    shopifyClientSecret: '',
+    shopifyTokenUrl: '',
     shopifyCustomerApiUrl: `https://shopify.com/${process.env.SHOPIFY_SHOP_ID}/account/customer/api/${process.env.SHOPIFY_API_VERSION}/graphql`,
     // storefront
     public: {
-      storeFrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN,
-      storefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql`,
-
+      storeFrontToken: '',
+      storefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`,
       appUrl: 'http://localhost:3000',
     },
   },
