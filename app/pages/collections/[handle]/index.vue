@@ -18,7 +18,7 @@
     <div class="w-full">
       <h1 class="capitalize">Collection name: {{ handle }}</h1>
       <div class="grid w-full grid-cols-2 gap-4">
-        <div v-for="item in data?.nodes" class="bg-gray-100 p-4">
+        <div v-for="item in data?.nodes" :key="item.id" class="bg-gray-100 p-4">
           <p>
             {{ item?.title }}
           </p>
