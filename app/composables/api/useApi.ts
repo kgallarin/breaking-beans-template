@@ -6,7 +6,7 @@ import {
   type ResponseType,
 } from 'ofetch';
 
-export function createApiFetch(overrides: FetchOptions = {}): $Fetch {
+export function useApi(overrides: FetchOptions = {}): $Fetch {
   const config = useRuntimeConfig();
   // if server getCookie, if clients ignore
   const ssrHeaders = import.meta.server ? useRequestHeaders(['cookie']) : {};

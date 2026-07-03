@@ -2,7 +2,7 @@ import { useFetch } from '#app';
 import type { UseFetchOptions } from 'nuxt/app';
 import type { ShopifyApiError, ShopifyApiResponse } from '~~/types/ApiResponse';
 
-export function useApiFetchSingle<TNode, TPayload>(
+export function useFetchSingle<TNode, TPayload>(
   url: string | MaybeRefOrGetter<string>,
   extract: (payload: TPayload) => TNode | undefined | null,
   options?: UseFetchOptions<ShopifyApiResponse<TPayload>>,

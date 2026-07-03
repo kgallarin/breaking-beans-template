@@ -1,17 +1,13 @@
-import { useApiFetchList } from '~/composables/api/useApiFetchList';
+import { useFetchList } from '~/composables/api/useFetchList';
 import type { ShopifyConnection } from '~~/types/ApiResponse';
-
-interface Product {
-  id: string;
-  title: string;
-}
+import type { Product } from '~~/types/Products';
 
 // payload from shopify
 interface ProductsPayload {
   products: ShopifyConnection<Product>;
 }
 export function useProducts() {
-  const { items, pageInfo, graphqlErrors, fetchError, loading, refresh, execute } = useApiFetchList<
+  const { items, pageInfo, graphqlErrors, fetchError, loading, refresh, execute } = useFetchList<
     Product,
     ProductsPayload
   >('/products', (payload: ProductsPayload): ShopifyConnection<Product> => payload.products);

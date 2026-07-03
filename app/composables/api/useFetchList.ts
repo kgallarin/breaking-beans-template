@@ -7,7 +7,7 @@ import type {
   ShopifyPageInfo,
 } from '~~/types/ApiResponse';
 
-export function useApiFetchList<TNode, TPayload>(
+export function useFetchList<TNode, TPayload>(
   url: string | MaybeRefOrGetter<string>,
   // function to tell composable where Connection type lives in the payload
   extract: (payload: TPayload) => ShopifyConnection<TNode | undefined | null>,
