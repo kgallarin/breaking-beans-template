@@ -1,15 +1,17 @@
 import { useFetch } from '#app';
 import type { UseFetchOptions } from 'nuxt/app';
-import type { ShopifyApiError, ShopifyApiResponse } from '~~/types/ApiResponse';
+import type { ShopifyApiError, ShopifyApiResponse } from '~~/types/Shopify';
 
-export function useApiFetchSingle<TNode, TPayload>(
+export function useFetchSingle<TNode, TPayload>(
   url: string | MaybeRefOrGetter<string>,
   extract: (payload: TPayload) => TNode | undefined | null,
   options?: UseFetchOptions<ShopifyApiResponse<TPayload>>,
 ) {
-  const { $api } = useRuntimeConfig();
+  const { $api } = useNuxtApp();
 
-  const { data, status, error, refresh, execute } = useFetch<ShopifyApiResponse<TPayload>>(url, {
+  const { data, status, error, refresh, execute } = useFetch<
+    ShopifyApiResponse<TPayload>
+  >(url, {
     $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
     ...options,
     dedupe: 'defer',

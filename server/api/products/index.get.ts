@@ -1,26 +1,8 @@
-import { createStorefrontFetch } from '@/services/storefront.service';
 import { type H3Event, defineEventHandler } from 'h3';
+import { getProducts } from '~/services/shopify/products.service';
+import type { Product } from '~~/types/Products';
 
-const query = `
-  query getProducts {
-    products(first: 10) {
-      edges {
-        node {
-          title
-          id
-        }
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-      }
-    }
-  }
-`;
-export default defineEventHandler(async (event: H3Event) => {
-  const storeFrontFetch = createStorefrontFetch(event);
-  return await storeFrontFetch('', {
-    method: 'POST',
-    body: JSON.stringify({ query }),
-  });
+export default defineEventHandler(async (event: H3Event): Promise<Product[]> => {
+  const { first } = getQuery(event);
+  return await getProducts(event, Number(first) || 10);
 });

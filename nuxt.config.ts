@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     },
   ],
   imports: {
-    dirs: ['composables/**'],
+    dirs: ['composables/**', 'server/**'],
   },
   vite: {
     plugins: [tailwindcss()],

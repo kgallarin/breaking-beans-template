@@ -2,7 +2,7 @@ import { type Config } from 'prettier';
 
 const config: Config = {
   endOfLine: 'lf',
-  printWidth: 100,
+  printWidth: 85,
   singleQuote: true,
   vueIndentScriptAndStyle: true,
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
