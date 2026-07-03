@@ -11,6 +11,7 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'Handle is required.',
     });
   }
+  const response = await getCollectionProducts(event, handle, Number(first) || 10);
 
-  return await getCollectionProducts(event, handle, Number(first) || 10);
+  return response;
 });

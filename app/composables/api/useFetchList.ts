@@ -5,7 +5,7 @@ import type {
   ShopifyConnection,
   ShopifyEdge,
   ShopifyPageInfo,
-} from '~~/types/ApiResponse';
+} from '~~/types/Shopify';
 
 export function useFetchList<TNode, TPayload>(
   url: string | MaybeRefOrGetter<string>,
@@ -15,7 +15,9 @@ export function useFetchList<TNode, TPayload>(
 ) {
   const { $api } = useNuxtApp();
 
-  const { data, status, error, refresh, execute } = useFetch<ShopifyApiResponse<TPayload>>(url, {
+  const { data, status, error, refresh, execute } = useFetch<
+    ShopifyApiResponse<TPayload>
+  >(url, {
     $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
     ...options,
     dedupe: 'defer',
@@ -24,7 +26,6 @@ export function useFetchList<TNode, TPayload>(
   // isolate the connection object using extract()
   const connection = computed(() => {
     if (!data.value?.data) return null;
-
     return extract(data.value.data);
   });
 
@@ -35,7 +36,8 @@ export function useFetchList<TNode, TPayload>(
     if (extractedConnection.nodes) return extractedConnection.nodes;
     if (extractedConnection.edges)
       return extractedConnection.edges.map(
-        (edge: ShopifyEdge<TNode | undefined | null>): TNode | undefined | null => edge.node,
+        (edge: ShopifyEdge<TNode | undefined | null>): TNode | undefined | null =>
+          edge.node,
       );
 
     return [];
@@ -44,7 +46,9 @@ export function useFetchList<TNode, TPayload>(
   return {
     items: flattenedNodeOrEdges,
     // meta on php
-    pageInfo: computed((): ShopifyPageInfo | null => connection.value?.pageInfo ?? null),
+    pageInfo: computed(
+      (): ShopifyPageInfo | null => connection.value?.pageInfo ?? null,
+    ),
     graphqlErrors: computed((): ShopifyApiError[] => data.value?.errors ?? []),
     fetchError: error,
     loading: computed((): boolean => status.value === 'pending'),

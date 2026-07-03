@@ -26,7 +26,7 @@ export async function getProducts(event: H3Event, first = 10): Promise<Product[]
     method: 'POST',
     body: JSON.stringify({
       query: GET_PRODUCTS_QUERY,
-      variables: first,
+      variables: { first },
     }),
   });
 }
