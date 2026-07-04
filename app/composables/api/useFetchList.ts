@@ -18,9 +18,9 @@ export function useFetchList<TNode, TPayload>(
   const { data, status, error, refresh, execute } = useFetch<
     ShopifyApiResponse<TPayload>
   >(url, {
-    $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
-    ...options,
     dedupe: 'defer',
+    ...options,
+    $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
   });
 
   // isolate the connection object using extract()
@@ -51,6 +51,7 @@ export function useFetchList<TNode, TPayload>(
     ),
     graphqlErrors: computed((): ShopifyApiError[] => data.value?.errors ?? []),
     fetchError: error,
+    status, // 'idle' | 'pending' | 'success' | 'error'
     loading: computed((): boolean => status.value === 'pending'),
     refresh,
     execute,

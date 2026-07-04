@@ -28,8 +28,13 @@ export interface ShopifyEdge<T> {
 }
 
 export interface ShopifyConnection<T> {
-  edges: ShopifyEdge<T>[];
+  edges?: ShopifyEdge<T>[];
   pageInfo: ShopifyPageInfo;
   // for new versions directly queueing nodes
   nodes?: T[];
+}
+
+export interface MoneyV2 {
+  amount: string;
+  currencyCode: string;
 }

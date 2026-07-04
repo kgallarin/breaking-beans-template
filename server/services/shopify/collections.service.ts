@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3';
-import { createStorefrontFetch } from '~/services/shopify/storefront.service';
+import { createStorefrontFetch } from '~~/server/services/shopify/storefront.service';
 
 const COLLECTIONS_QUERY = `
   query getCollections($first: Int!) {

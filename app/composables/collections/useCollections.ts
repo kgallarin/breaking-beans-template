@@ -13,9 +13,10 @@ interface CollectionPayload {
 }
 
 export function useCollections() {
+  const collectionsUrl = computed((): string => '/collections');
   const { items, loading, pageInfo, graphqlErrors, fetchError, refresh, execute } =
     useFetchList<Collection, CollectionPayload>(
-      '/collections',
+      collectionsUrl,
       (payload: CollectionPayload): ShopifyConnection<Collection> =>
         payload.collections,
     );

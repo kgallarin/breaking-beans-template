@@ -5,13 +5,13 @@ export function createStorefrontFetch(event: H3Event) {
   const config = useRuntimeConfig(event);
 
   return $fetch.create({
-    baseURL: config.public.storefrontApiUrl,
+    baseURL: config.shopifyStorefrontApiUrl,
     timeout: 15_000,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       // static public storefront token and NOT Bearer Token
-      'X-Shopify-Storefront-Access-Token': config.public.storeFrontToken,
+      'X-Shopify-Storefront-Access-Token': config.shopifyStorefrontToken,
     },
 
     // catch graphql errors

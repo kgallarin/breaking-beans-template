@@ -1,5 +1,5 @@
 import { type H3Event } from 'h3';
-import { getCollectionProducts } from '~/services/shopify/collections.service';
+import { getCollectionProducts } from '~~/server/services/shopify/collections.service';
 
 export default defineEventHandler(async (event: H3Event) => {
   const handle = getRouterParam(event, 'handle');
@@ -11,7 +11,5 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'Handle is required.',
     });
   }
-  const response = await getCollectionProducts(event, handle, Number(first) || 10);
-
-  return response;
+  return await getCollectionProducts(event, handle, Number(first) || 10);
 });
