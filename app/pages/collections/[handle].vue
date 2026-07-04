@@ -3,9 +3,9 @@
     title: 'Enjoy Freshness',
   });
   const route = useRoute();
-  const handle = route.params.handle;
+  const handle = computed(() => route.params.handle as string);
   const { data, loading, fetchError, graphqlErrors } = useCollectionProducts(
-    handle as string,
+    handle.value,
   );
 </script>
 

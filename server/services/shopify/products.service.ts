@@ -8,9 +8,31 @@ const GET_PRODUCTS_QUERY = `
     products(first: $first) {
       edges {
         node {
-          title
           id
+          title
           description
+          handle
+          featuredImage {
+            url
+            altText
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          variants(first: 10) {
+            nodes {
+              id
+              title
+              availableForSale
+              price {
+                amount
+                currencyCode
+              }
+            }
+          }
         }
       }
       pageInfo {

@@ -6,7 +6,7 @@ interface CollectionProductsPayload {
     products: ShopifyConnection<Product>;
   };
 }
-export function useCollectionProducts(handle: string) {
+export function useCollectionProducts(handle: string | MaybeRefOrGetter<string>) {
   const collectionProductsUrl = computed(
     (): string => `/collections/${handle}/products`,
   );

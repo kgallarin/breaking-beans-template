@@ -16,10 +16,15 @@
 
       <h3>Loop Output:</h3>
       <ul>
-        <li v-for="(product, index) in items" :key="product?.id" class="bg-black text-white">
+        <li
+          v-for="(product, index) in items"
+          :key="product?.id"
+          class="bg-black text-white"
+        >
           <p>Product {{ index }}</p>
           <p>{{ product?.title }}</p>
           <p>{{ product?.description }}</p>
+          <p>handle: {{ product?.handle }}</p>
         </li>
       </ul>
     </div>
