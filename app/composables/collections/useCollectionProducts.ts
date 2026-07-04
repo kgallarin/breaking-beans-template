@@ -6,12 +6,21 @@ interface CollectionProductsPayload {
     products: ShopifyConnection<Product>;
   };
 }
-export function useCollectionProducts(handle: string) {
+export function useCollectionProducts(handle: string | MaybeRefOrGetter<string>) {
+  const collectionProductsUrl = computed(
+    (): string => `/collections/${handle}/products`,
+  );
+
   const { data, loading, graphqlErrors, fetchError, refresh, execute } =
     useFetchSingle<ShopifyConnection<Product>, CollectionProductsPayload>(
-      `/collections/${handle}/products`,
+      collectionProductsUrl,
       (payload: CollectionProductsPayload): ShopifyConnection<Product> => {
-        return payload.collection.products;
+        return (
+          payload.collection.products ?? {
+            nodes: [],
+            pageInfo: { hasNextPage: false, hasPreviousPage: false },
+          }
+        );
       },
     );
 

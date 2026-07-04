@@ -11,9 +11,9 @@ export default defineNuxtConfig({
     shopifyTokenUrl: '',
     shopifyCustomerApiUrl: `https://shopify.com/${process.env.SHOPIFY_SHOP_ID}/account/customer/api/${process.env.SHOPIFY_API_VERSION}/graphql`,
     // storefront
+    shopifyStorefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`,
+    shopifyStorefrontToken: '',
     public: {
-      storeFrontToken: '',
-      storefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`,
       appUrl: 'http://localhost:3000',
     },
   },

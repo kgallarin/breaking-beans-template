@@ -12,9 +12,9 @@ export function useFetchSingle<TNode, TPayload>(
   const { data, status, error, refresh, execute } = useFetch<
     ShopifyApiResponse<TPayload>
   >(url, {
-    $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
-    ...options,
     dedupe: 'defer',
+    ...options,
+    $fetch: $api as UseFetchOptions<ShopifyApiResponse<TPayload>>['$fetch'],
   });
 
   const extractedData = computed((): TNode | null => {
@@ -28,6 +28,7 @@ export function useFetchSingle<TNode, TPayload>(
     graphqlErrors: computed((): ShopifyApiError[] => data.value?.errors ?? []),
     // nuxt http/network errors
     fetchError: error,
+    status, // 'idle' | 'pending' | 'success' | 'error'
     loading: computed((): boolean => status.value === 'pending'),
     refresh,
     execute,
