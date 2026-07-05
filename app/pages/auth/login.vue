@@ -6,9 +6,7 @@
   const username = ref('');
   const password = ref('');
 
-  function submitLogin() {
-    console.log('login submitted!');
-  }
+  function submitLogin() {}
 </script>
 
 <template>
