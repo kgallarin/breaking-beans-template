@@ -3,7 +3,6 @@ import { $fetch } from 'ofetch';
 
 export function createStorefrontFetch(event: H3Event) {
   const config = useRuntimeConfig(event);
-
   return $fetch.create({
     baseURL: config.shopifyStorefrontApiUrl,
     timeout: 15_000,

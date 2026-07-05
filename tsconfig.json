@@ -2,14 +2,14 @@
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "nuxt"]
+    "types": ["node"]
   },
   "include": [
     "./.nuxt/nuxt.d.ts",
     "./app/**/*",
-    "./utils/**/*/*.ts",
+    "./server/**/*",
     "./tests/**/*.spec.ts",
-    "./plugins/**/*.ts",
-    "./types/**/*.ts"
+    "./tests/**/*.test.ts",
+    "./types/**/*.ts",
   ]
 }
