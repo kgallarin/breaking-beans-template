@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import { clsx } from 'clsx';
+  import { useMergedAttrs } from '~/composables/styles/useMergedAttrs';
 
   const props = withDefaults(
     defineProps<{
@@ -22,15 +23,11 @@
 
   const model = defineModel<string | number>();
 
-  const attrs = useAttrs();
   const defaultInputStyles = clsx(
-    'h-10 p-2 bg-white rounded-md border',
+    'h-10 p-4 bg-white text-sm rounded-md border',
     props.error ? 'border-red-400' : 'border-gray-300',
   );
-  const inputAttrs = computed(() => ({
-    ...attrs,
-    class: stylesMerger(defaultInputStyles, attrs.class),
-  }));
+  const inputAttrs = useMergedAttrs(() => defaultInputStyles);
 </script>
 
 <template>
@@ -57,6 +54,6 @@
       :type="type"
     />
 
-    <p class="text-xs">{{ error }}</p>
+    <p :class="[error ? 'text-red-400' : 'text-gray-900', 'text-xs']">{{ error }}</p>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { stylesMerger } from '~/utils/stylesMerger';
+  import { useMergedAttrs } from '~/composables/styles/useMergedAttrs';
 
   withDefaults(
     defineProps<{
@@ -18,14 +18,10 @@
     inheritAttrs: false,
   });
 
-  const attrs = useAttrs();
   const buttonDefaultStyles =
     'cursor-pointer rounded-md bg-gray-400 px-4 py-2 text-sm text-white';
 
-  const buttonAttrs = computed(() => ({
-    ...attrs,
-    class: stylesMerger(buttonDefaultStyles, attrs.class),
-  }));
+  const buttonAttrs = useMergedAttrs(() => buttonDefaultStyles);
 </script>
 
 <template>
