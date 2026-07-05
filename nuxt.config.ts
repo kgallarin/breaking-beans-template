@@ -6,15 +6,20 @@ import { defineNuxtConfig } from 'nuxt/config';
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   css: ['~/assets/styles/app.css'],
+  modules: ['@pinia/nuxt'],
   runtimeConfig: {
+    // customer/auth
     shopifyClientSecret: '',
     shopifyTokenUrl: '',
+    shopifyClientId: '',
+    shopifyAuthUrl: '',
     shopifyCustomerApiUrl: `https://shopify.com/${process.env.SHOPIFY_SHOP_ID}/account/customer/api/${process.env.SHOPIFY_API_VERSION}/graphql`,
+
     // storefront
     shopifyStorefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`,
     shopifyStorefrontToken: '',
     public: {
-      appUrl: 'http://localhost:3000',
+      appUrl: '',
     },
   },
   devtools: { enabled: true },
@@ -25,7 +30,7 @@ export default defineNuxtConfig({
     },
   ],
   imports: {
-    dirs: ['composables/**', 'server/**'],
+    dirs: ['composables/**'],
   },
   vite: {
     plugins: [tailwindcss()],
@@ -36,9 +41,13 @@ export default defineNuxtConfig({
         '@vue/devtools-kit',
         '@vueuse/components',
         '@vue/devtools-kit',
+        '@pinia/nuxt',
         'clsx',
         'tailwind-merge',
       ],
+    },
+    server: {
+      allowedHosts: ['shopify-breaking-beans.loomberryliving.com'],
     },
   },
   alias: {
