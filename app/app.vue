@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <div data-testid="app-root">
+  <div data-testid="app-root" class="h-full">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
