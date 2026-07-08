@@ -72,14 +72,14 @@ export async function createCart(
   const fetch = createStorefrontFetch(event);
 
   const CREATE_CART_QUERY = `
-    mutation createCart($input: CartInput!) {
-      createCart(input: $input) {
+    mutation cartCreate($input: CartInput!) {
+      cartCreate(input: $input) {
         cart {
           ${CART_FIELDS}
-          userErrors: {
-            field
-            message
-          }
+        }
+        userErrors {
+          field
+          message
         }
       }
     }
@@ -95,7 +95,7 @@ export async function createCart(
   }>('', {
     method: 'POST',
     body: JSON.stringify({
-      CREATE_CART_QUERY,
+      query: CREATE_CART_QUERY,
       variables: {
         input: {
           lines,
@@ -237,8 +237,8 @@ export async function cartLinesRemove(
   const fetch = createStorefrontFetch(event);
 
   const REMOVE_CART_LINES_QUERY = `
-    mutation removeCartLines($cartId: ID!, $lineIds: [ID!]!) {
-      removeCartlines(cartId: $cartId, lineIds: $lineIds) {
+    mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+      cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
         cart {
           ${CART_FIELDS}
         }

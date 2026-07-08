@@ -4,8 +4,8 @@ import type { Cart } from '~~/types/Cart';
 
 // update cart (line) items
 export default defineEventHandler(async (event: H3Event): Promise<Cart> => {
-  const cartId = getRouterParam(event, 'id')!;
-  const { lines } = await readBody<{
+  const { cartId, lines } = await readBody<{
+    cartId: string;
     lines: {
       id: string;
       quantity: number;

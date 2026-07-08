@@ -1,31 +1,26 @@
 <script setup lang="ts">
+  import { useCartStore } from '@store/cart/cart.store';
+  import ProductCard from '@components/products/ProductCard.vue';
+  import type { Product } from '~~/types/Products';
+
   useSeoPage({
     title: 'Espresso',
   });
-  const { items, loading, fetchError } = useProducts();
+  const cartStore = useCartStore();
+  const { items: products, loading, fetchError } = useProducts();
 </script>
 
 <template>
-  <div class="product-index">
+  <div class="product-index mx-auto max-w-3xl min-w-lg">
     <div v-if="loading">Fetching Shopify Data...</div>
     <div v-else-if="fetchError">HTTP Error: {{ fetchError.message }}</div>
 
     <div v-else>
-      <h3>Raw Output:</h3>
-
-      <h3>Loop Output:</h3>
-      <ul class="grid grid-cols-2 gap-4">
-        <li
-          v-for="(product, index) in items"
-          :key="product?.id"
-          class="bg-blue-400 p-4 text-white"
-        >
-          <p>Product {{ index }}</p>
-          <p>{{ product?.title }}</p>
-          <p>{{ product?.description }}</p>
-          <p>handle: {{ product?.handle }}</p>
-        </li>
-      </ul>
+      <div class="grid grid-cols-2 gap-4 py-4">
+        <template v-for="product in products" :key="product?.id">
+          <product-card :product="product as Product" />
+        </template>
+      </div>
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@ import type { MoneyV2 } from '~~/types/Shopify';
 
 export const useCartStore = defineStore('cart', () => {
   // @todo: move constants in separate file
-  const CART_ID = 'shopify_cart_id';
+  const CART_STORAGE_KEY = 'shopify_cart_id';
 
   // state
   const cartId = ref<string | null>(null);
@@ -14,26 +14,47 @@ export const useCartStore = defineStore('cart', () => {
   const isLoading = ref(false);
 
   // getters
-  const itemCount = computed(() => cart.value?.totalQuantity ?? 0);
+  const itemCount = computed((): number => cart.value?.totalQuantity ?? 0);
   const items = computed(() => cart.value?.lines.nodes ?? []);
   const subTotal = computed(
     (): MoneyV2 | null => cart.value?.cost.subtotalAmount ?? null,
   );
-  const checkOutUrl = computed(() => cart.value?.checkoutUrl ?? null);
+  const checkOutUrl = computed((): string | null => cart.value?.checkoutUrl ?? null);
 
-  // persist cartId helper
-  function persistCartId(id: string | null) {
+  // helpers
+
+  // persist cartId
+  function persistCartId(id: string | null): void {
     cartId.value = id;
     if (import.meta.client) {
-      id ? localStorage.setItem(CART_ID, id) : localStorage.removeItem(CART_ID);
+      id
+        ? localStorage.setItem(CART_STORAGE_KEY, id)
+        : localStorage.removeItem(CART_STORAGE_KEY);
     }
+  }
+  // resolve BFF URL conflict
+  function splitCartRouteParams(): { cartShortId: string; cartKeyParams: string } {
+    if (!cartId.value) {
+      return {
+        cartShortId: '',
+        cartKeyParams: '',
+      };
+    }
+
+    const cleanGId = cartId.value.split('/').pop() || '';
+    const splitByKeyValue = cleanGId.split('?') || '';
+
+    return {
+      cartShortId: splitByKeyValue[0] || '', // shortId
+      cartKeyParams: splitByKeyValue[1] || '', // ?key
+    };
   }
 
   // actions
-  async function init() {
+  async function init(): Promise<void> {
     if (!import.meta.client) return; // localStorage: browser only
 
-    const savedId = localStorage.getItem(CART_ID);
+    const savedId = localStorage.getItem(CART_STORAGE_KEY);
     if (savedId) {
       cartId.value = savedId;
 
@@ -41,11 +62,12 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  async function fetchCart() {
+  async function fetchCart(): Promise<void> {
     if (!cartId.value) return;
 
     try {
-      cart.value = await $fetch<Cart>(`/api/cart/${cartId.value}`);
+      const { cartShortId, cartKeyParams } = splitCartRouteParams();
+      cart.value = await $fetch<Cart>(`/api/cart/${cartShortId}?${cartKeyParams}`);
     } catch {
       // reset -> fresh cart
       persistCartId(null);
@@ -53,7 +75,7 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  async function addItem(merchandiseId: string, quantity = 1) {
+  async function addItem(merchandiseId: string, quantity = 1): Promise<void> {
     isLoading.value = true;
 
     try {
@@ -73,56 +95,76 @@ export const useCartStore = defineStore('cart', () => {
         // persist/save for future sessions
         persistCartId(cart.value.id);
       } else {
-        // cart already exists: add new item
-        cart.value = await $fetch<Cart>(`/api/cart/${cartId.value}/lines`, {
-          method: 'POST',
-          body: {
-            lines: [
-              {
-                merchandiseId,
-                quantity,
-              },
-            ],
+        const { cartShortId, cartKeyParams } = splitCartRouteParams();
+        cart.value = await $fetch<Cart>(
+          `/api/cart/${cartShortId}/lines?${cartKeyParams}`,
+          {
+            method: 'POST',
+            body: {
+              cartId: cartId.value,
+              lines: [
+                {
+                  merchandiseId,
+                  quantity,
+                },
+              ],
+            },
           },
-        });
+        );
       }
     } finally {
       isLoading.value = false;
     }
   }
 
-  async function updateItem(lineId: string, quantity: number) {
+  async function updateItem(lineId: string, quantity: number): Promise<void> {
     if (!cartId.value) return;
     isLoading.value = true;
 
+    // if request quantity to 0, removeItem
+    if (quantity <= 0) {
+      await removeItem(lineId);
+      return;
+    }
+
     try {
-      cart.value = await $fetch<Cart>(`/api/cart/${cartId.value}/lines`, {
-        method: 'PUT',
-        body: {
-          lines: [
-            {
-              id: lineId,
-              quantity,
-            },
-          ],
+      const { cartShortId, cartKeyParams } = splitCartRouteParams();
+      cart.value = await $fetch<Cart>(
+        `/api/cart/${cartShortId}/lines?${cartKeyParams}`,
+        {
+          method: 'PUT',
+          body: {
+            cartId: cartId.value,
+            lines: [
+              {
+                id: lineId,
+                quantity,
+              },
+            ],
+          },
         },
-      });
+      );
     } finally {
       isLoading.value = false;
     }
   }
 
-  async function removeItem(lineId: string) {
+  async function removeItem(lineId: string): Promise<void> {
     if (!cartId.value) return;
     isLoading.value = true;
 
     try {
-      cart.value = await $fetch<Cart>(`/api/cart/${cartId.value}/lines`, {
-        method: 'DELETE',
-        body: {
-          lineIds: [lineId],
+      const { cartShortId, cartKeyParams } = splitCartRouteParams();
+      cart.value = await $fetch<Cart>(
+        `/api/cart/${cartShortId}/lines?${cartKeyParams}`,
+        {
+          method: 'DELETE',
+          body: {
+            cartId: cartId.value,
+            lineIds: [lineId],
+          },
         },
-      });
+      );
     } finally {
       isLoading.value = false;
     }

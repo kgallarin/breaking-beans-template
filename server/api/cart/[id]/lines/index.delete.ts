@@ -3,9 +3,8 @@ import type { H3Event } from 'h3';
 import type { Cart } from '~~/types/Cart';
 
 export default defineEventHandler(async (event: H3Event): Promise<Cart> => {
-  const cartId = getRouterParam(event, 'id')!;
-
-  const { lineIds } = await readBody<{
+  const { cartId, lineIds } = await readBody<{
+    cartId: string;
     lineIds: string[];
   }>(event);
 

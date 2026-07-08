@@ -19,8 +19,8 @@
 </script>
 
 <template>
-  <footer class="mt-auto bg-blue-100">
-    <div class="footer-inner px-4 py-8">
+  <footer class="mt-auto pt-20">
+    <div class="footer-inner bg-blue-100 px-4 py-8">
       <nav class="create-base-nav-list flex gap-4">
         <NuxtLink
           v-for="nav in computedNavLinks"
