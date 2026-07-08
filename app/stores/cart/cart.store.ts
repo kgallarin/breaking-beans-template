@@ -27,9 +27,11 @@ export const useCartStore = defineStore('cart', () => {
   function persistCartId(id: string | null): void {
     cartId.value = id;
     if (import.meta.client) {
-      id
-        ? localStorage.setItem(CART_STORAGE_KEY, id)
-        : localStorage.removeItem(CART_STORAGE_KEY);
+      if (id) {
+        localStorage.setItem(CART_STORAGE_KEY, id);
+      } else {
+        localStorage.removeItem(CART_STORAGE_KEY);
+      }
     }
   }
   // resolve BFF URL conflict

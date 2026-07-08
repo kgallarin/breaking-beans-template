@@ -1,12 +1,10 @@
 <script setup lang="ts">
-  import { useCartStore } from '@store/cart/cart.store';
   import ProductCard from '@components/products/ProductCard.vue';
   import type { Product } from '~~/types/Products';
 
   useSeoPage({
     title: 'Espresso',
   });
-  const cartStore = useCartStore();
   const { items: products, loading, fetchError } = useProducts();
 </script>
 
