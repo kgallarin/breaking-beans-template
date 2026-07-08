@@ -12,14 +12,13 @@
 
     <div v-else>
       <h3>Raw Output:</h3>
-      <pre>{{ items }}</pre>
 
       <h3>Loop Output:</h3>
-      <ul>
+      <ul class="grid grid-cols-2 gap-4">
         <li
           v-for="(product, index) in items"
           :key="product?.id"
-          class="bg-black text-white"
+          class="bg-blue-400 p-4 text-white"
         >
           <p>Product {{ index }}</p>
           <p>{{ product?.title }}</p>

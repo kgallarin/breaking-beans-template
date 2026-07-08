@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     customer.value = null;
 
-    await navigateTo('/');
+    await navigateTo('/', { replace: true });
   }
 
   return {
