@@ -15,6 +15,7 @@
       <div v-for="item in items" :key="item?.id">
         <div class="bg-amber-50 p-4">
           <h1>{{ item?.title }}</h1>
+          {{ item?.handle }}
           <p>{{ item?.description }}</p>
         </div>
       </div>

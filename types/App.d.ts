@@ -1,5 +1,9 @@
 export type NavLink = {
   label: string;
-  href: string | null;
-  auth: boolean;
+  href: string;
+  auth?: boolean;
+  guest?: boolean;
+  imageLink?: string;
+  badgeValue?: number;
+  action?: boolean;
 };
