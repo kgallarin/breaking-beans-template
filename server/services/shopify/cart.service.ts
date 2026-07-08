@@ -62,7 +62,7 @@ function cartErrors(userErrors: CartUserError[]): void {
   }
 }
 
-async function createCart(
+export async function createCart(
   event: H3Event,
   lines: {
     merchandiseId: string;
