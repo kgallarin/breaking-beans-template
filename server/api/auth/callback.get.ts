@@ -12,50 +12,27 @@ export default defineEventHandler(async (event: H3Event) => {
     });
   }
 
-  // state from Shopify's query can be string | string[] — normalise it
-  const stateStr = Array.isArray(state) ? state[0] : String(state ?? '');
-  const codeVerifier = stateStr
-    ? await useStorage().getItem<string>(`oauth:${stateStr}`)
-    : null;
+  // fails on tunneling
+  const storedState = getCookie(event, 'shopify_oauth_state');
+  const codeVerifier = getCookie(event, 'shopify_code_verifier');
 
-  if (!codeVerifier) {
+  if (!storedState || state !== storedState) {
     throw createError({
       status: 400,
-      message: 'Invalid or expired OAuth state — please try logging in again',
+      message:
+        'Invalid state params - possible malicious CSRF attack or expired session',
     });
   }
 
-  // Remove for security
-  await useStorage().removeItem(`oauth:${stateStr}`);
-
-  if (!code) {
+  if (!codeVerifier || !code) {
     throw createError({
       status: 400,
-      message: 'Missing authorization code',
+      message: 'Missing required params',
     });
   }
 
-  // for prod and no tunneling
-  // const storedState = getCookie(event, 'shopify_oauth_state');
-  // const codeVerifier = getCookie(event, 'shopify_code_verifier');
-  //
-  // if (!storedState || state !== storedState) {
-  //   throw createError({
-  //     status: 400,
-  //     message:
-  //       'Invalid state params - possible malicious CSRF attack or expired session',
-  //   });
-  // }
-  //
-  // if (!codeVerifier || !code) {
-  //   throw createError({
-  //     status: 400,
-  //     message: 'Missing required params',
-  //   });
-  // }
-  //
-  // deleteCookie(event, 'shopify_oauth_state');
-  // deleteCookie(event, 'shopify_code_verifier');
+  deleteCookie(event, 'shopify_oauth_state');
+  deleteCookie(event, 'shopify_code_verifier');
 
   // Exchange the authorization code for tokens (server-to-server)
   const redirectUri = `${config.public.appUrl}/api/auth/callback`;
