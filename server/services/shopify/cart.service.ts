@@ -127,7 +127,7 @@ export async function getCart(event: H3Event, cartId: string): Promise<Cart | nu
   }>('', {
     method: 'POST',
     body: JSON.stringify({
-      GET_CART_QUERY,
+      query: GET_CART_QUERY,
       variables: {
         cartId,
       },

@@ -24,7 +24,7 @@
 </script>
 
 <template>
-  <div class="mx-auto my-4 w-full max-w-3xl p-4 text-center text-blue-900">
+  <div class="mx-auto my-4 w-full p-4 text-center text-blue-900">
     <pre class="mb-8 underline">{{ data?.title }}</pre>
     <p>{{ data?.description }}</p>
 

@@ -4,16 +4,18 @@ import type { Cart } from '~~/types/Cart';
 
 // show/get cart
 export default defineEventHandler(async (event: H3Event): Promise<Cart> => {
-  const cartId = getRouterParam(event, 'id');
+  const cartShortId = getRouterParam(event, 'id');
 
-  if (!cartId) {
+  const fullCartId = `gid://shopify/Cart/${cartShortId}`;
+
+  if (!fullCartId) {
     throw createError({
       status: 400,
       message: 'Cart ID is required',
     });
   }
 
-  const cart = await getCart(event, cartId);
+  const cart = await getCart(event, fullCartId);
 
   if (!cart) {
     throw createError({
