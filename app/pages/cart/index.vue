@@ -35,7 +35,7 @@
 </script>
 
 <template>
-  <div class="mx-auto flex h-full max-w-md min-w-md flex-col">
+  <div class="mx-auto flex h-full flex-col">
     <div class="flex items-center justify-between border-b px-6 py-4">
       <h2>Cart Items: {{ itemCount }}</h2>
     </div>
@@ -51,6 +51,7 @@
       <li v-for="line in cartItems" :key="line.id" class="flex gap-4 px-6 py-4">
         <img
           v-if="line.merchandise.product.featuredImage"
+          class="max-w-40"
           :src="line.merchandise.product.featuredImage.url"
           :alt="
             line.merchandise.product.featuredImage.altText ??
