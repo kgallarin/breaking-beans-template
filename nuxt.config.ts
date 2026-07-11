@@ -4,9 +4,16 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+    },
+  },
   compatibilityDate: '2025-07-15',
-  css: ['~/assets/styles/app.css'],
-  modules: ['@pinia/nuxt'],
+  css: ['~/assets/styles/app.css', '@fortawesome/fontawesome-svg-core/styles.css'],
+  modules: ['@pinia/nuxt', '@nuxtjs/html-validator', '@nuxt/hints'],
   runtimeConfig: {
     // customer/auth
     shopifyClientSecret: '',
@@ -36,12 +43,15 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
     optimizeDeps: {
       include: [
+        '@fortawesome/fontawesome-svg-core',
+        '@fortawesome/free-regular-svg-icons',
+        '@fortawesome/free-solid-svg-icons',
+        '@fortawesome/vue-fontawesome',
+        '@pinia/nuxt',
         '@vee-validate/zod',
         '@vue/devtools-core',
         '@vue/devtools-kit',
         '@vueuse/components',
-        '@vue/devtools-kit',
-        '@pinia/nuxt',
         'clsx',
         'tailwind-merge',
       ],

@@ -31,27 +31,27 @@
 <template>
   <div class="bg-white px-4 py-8">
     <div class="nav-inner flex justify-between">
-      <ClientOnly>
-        <NuxtLink to="/"> Breaking Beans </NuxtLink>
-        <nav class="create-base-nav-list flex gap-8">
-          <template v-for="nav in computedNavLinks" :key="nav.label">
-            <NuxtLink
-              :to="nav.href"
-              class="relative cursor-pointer"
-              @click.prevent.stop="handleNavClick(nav)"
-            >
-              {{ nav.label }}
+      <NuxtLink to="/"> Breaking Beans </NuxtLink>
+      <nav class="create-base-nav-list flex gap-8">
+        <template v-for="nav in computedNavLinks" :key="nav.label">
+          <NuxtLink
+            :to="nav.href"
+            class="relative cursor-pointer"
+            @click.prevent.stop="handleNavClick(nav)"
+          >
+            {{ nav.label }}
 
+            <ClientOnly>
               <span
                 v-if="nav.badgeValue"
                 class="absolute -top-3 -right-4 inline-flex aspect-square w-fit min-w-5 items-center justify-center rounded-full bg-red-300 p-1 text-xs leading-none"
               >
                 {{ nav.badgeValue }}
               </span>
-            </NuxtLink>
-          </template>
-        </nav>
-      </ClientOnly>
+            </ClientOnly>
+          </NuxtLink>
+        </template>
+      </nav>
     </div>
   </div>
 </template>

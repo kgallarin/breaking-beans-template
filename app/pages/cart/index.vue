@@ -28,16 +28,16 @@
     const input = event.target as HTMLInputElement;
     const newQuantity = parseInt(input.value, 10);
 
-    if (newQuantity >= 1) {
+    if (isNaN(newQuantity) && newQuantity >= 1) {
       cartStore.updateItem(lineId, newQuantity);
     }
   }
 </script>
 
 <template>
-  <div class="mx-auto flex h-full flex-col">
+  <div class="min-w-4lg mx-auto flex h-full w-4xl flex-col">
     <div class="flex items-center justify-between border-b px-6 py-4">
-      <h2>Cart Items: {{ itemCount }}</h2>
+      <h1>Cart Items: {{ itemCount }}</h1>
     </div>
 
     <div
@@ -78,15 +78,13 @@
               :disabled="isLoading"
               @click.prevent.stop="cartStore.updateItem(line.id, line.quantity - 1)"
             />
-
             <base-input
               type="number"
-              :value="line.quantity"
+              :model-value="line.quantity"
               min="1"
               :disabled="isLoading"
-              @change="handleQuantityChange(line.id, $event)"
+              @input="handleQuantityChange(line.id, $event)"
             />
-
             <base-button
               label="+"
               type="button"

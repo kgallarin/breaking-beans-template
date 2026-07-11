@@ -34,6 +34,11 @@ const CART_FIELDS = `
         ... on ProductVariant {
           id
           title
+          availableForSale
+          selectedOptions {
+            name
+            value
+          }
           price {
             amount
             currencyCode

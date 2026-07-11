@@ -29,9 +29,17 @@
 
 <template>
   <div
-    class="product-card flex flex-col divide-y rounded-md border border-amber-300 bg-white p-4 text-white"
+    class="product-card flex flex-col divide-y rounded-md border border-amber-300 bg-white p-2 text-white"
   >
     <div class="flex flex-1 flex-col pb-4 text-blue-900">
+      <div class="img-wrapper mb-4 h-55 w-full">
+        <img
+          v-if="product?.featuredImage"
+          :src="product?.featuredImage?.url"
+          :alt="product?.featuredImage?.altText ?? ''"
+          class="mb-4 h-full w-full rounded-t-md object-cover"
+        />
+      </div>
       <p>{{ product?.title }}</p>
       <p>{{ product?.description }}</p>
       <p class="mt-8 text-xs">{{ product?.handle }}</p>
@@ -44,20 +52,36 @@
       <p v-if="!selectedVariant" class="mb-4 text-xs text-red-400">
         {{ isVariantEmptyErr }}
       </p>
-      <div class="">
-        <base-button
-          v-for="variant in product?.variants?.nodes"
-          :key="variant.id"
-          :class="[
-            'w-fit rounded border px-3 py-1 text-sm',
-            selectedVariant?.id === variant.id
-              ? 'border-black bg-gray-900 text-white'
-              : 'border-gray-300 bg-white text-blue-900',
-          ]"
-          @click.prevent.stop="selectedVariant = variant"
-        >
-          {{ variant.title }}
-        </base-button>
+      <div class="flex gap-4">
+        <template v-for="variant in product?.variants?.nodes" :key="variant.id">
+          <div class="flex flex-col p-2">
+            <div>
+              <p class="mb-4 text-xs text-blue-900">
+                <span>
+                  {{ variant.availableForSale ? 'available' : 'out of stock' }}
+                </span>
+                <fa-icon
+                  :icon="['fa', 'check-circle']"
+                  :class="[
+                    variant.availableForSale ? 'text-green-300' : 'text-red-400',
+                    'text-xs',
+                  ]"
+                />
+              </p>
+            </div>
+            <base-button
+              :class="[
+                'w-fit rounded border px-3 py-1 text-sm',
+                selectedVariant?.id === variant.id
+                  ? 'border-black bg-gray-900 text-white'
+                  : 'border-gray-300 bg-white text-blue-900',
+              ]"
+              @click.prevent.stop="selectedVariant = variant"
+            >
+              {{ variant.title }}
+            </base-button>
+          </div>
+        </template>
       </div>
     </div>
 
