@@ -78,7 +78,6 @@
               :disabled="isLoading"
               @click.prevent.stop="cartStore.updateItem(line.id, line.quantity - 1)"
             />
-
             <base-input
               type="number"
               :model-value="line.quantity"
@@ -86,7 +85,6 @@
               :disabled="isLoading"
               @input="handleQuantityChange(line.id, $event)"
             />
-
             <base-button
               label="+"
               type="button"
