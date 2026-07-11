@@ -17,9 +17,9 @@
     },
   );
 
-  const emit = defineEmits<{
-    (e: 'input', event: Event): void;
-  }>();
+  // const emit = defineEmits<{
+  //   (e: 'input', event: Event): void;
+  // }>();
 
   defineOptions({
     inheritAttrs: false,
