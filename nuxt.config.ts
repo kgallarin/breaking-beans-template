@@ -5,7 +5,7 @@ import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  css: ['~/assets/styles/app.css'],
+  css: ['~/assets/styles/app.css', '@fortawesome/fontawesome-svg-core/styles.css'],
   modules: ['@pinia/nuxt'],
   runtimeConfig: {
     // customer/auth
