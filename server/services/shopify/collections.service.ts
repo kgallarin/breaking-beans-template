@@ -1,5 +1,6 @@
 import type { H3Event } from 'h3';
 import { createStorefrontFetch } from '~~/server/services/shopify/storefront.service';
+import type { ShopifyApiResponse } from '~~/types/Shopify';
 
 const COLLECTIONS_QUERY = `
   query getCollections($first: Int!) {
@@ -43,7 +44,45 @@ const COLLECTION_PRODUCTS_QUERY = `
     }
   `;
 
-export async function getCollections(event: H3Event, first = 10) {
+export async function getCollectionByHandle(
+  event: H3Event,
+  handle: string,
+  first: number,
+): Promise<
+  ShopifyApiResponse<{
+    collection: Collection | null;
+  }>
+> {
+  const COLLECTION_QUERY = `
+    query getCollectionByHandle($handle: String!, $first: Int!) {
+      collection(handle: $handle) {
+        id
+        title
+        description
+        products(first: $first) {
+          nodes {
+            id
+            title
+            description
+          }
+        }
+      }
+    }
+  `;
+  const storeFrontFetch = createStorefrontFetch(event);
+  return await storeFrontFetch('', {
+    method: 'POST',
+    body: JSON.stringify({
+      query: COLLECTION_QUERY,
+      variables: { handle, first },
+    }),
+  });
+}
+
+export async function getCollections(
+  event: H3Event,
+  first = 10,
+): Promise<Collection[]> {
   const storeFrontFetch = createStorefrontFetch(event);
   return await storeFrontFetch('', {
     method: 'POST',

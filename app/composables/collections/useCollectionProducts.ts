@@ -8,11 +8,11 @@ interface CollectionProductsPayload {
 }
 export function useCollectionProducts(handle: string | MaybeRefOrGetter<string>) {
   const collectionProductsUrl = computed(
-    (): string => `/collections/${handle}/products`,
+    (): string => `/collections/${toValue(handle)}/products`,
   );
 
-  const { data, loading, graphqlErrors, fetchError, refresh, execute } =
-    useFetchSingle<ShopifyConnection<Product>, CollectionProductsPayload>(
+  const { items, loading, graphqlErrors, fetchError, refresh, execute } =
+    useFetchList<Product, CollectionProductsPayload>(
       collectionProductsUrl,
       (payload: CollectionProductsPayload): ShopifyConnection<Product> => {
         return (
@@ -25,7 +25,7 @@ export function useCollectionProducts(handle: string | MaybeRefOrGetter<string>)
     );
 
   return {
-    data,
+    items,
     loading,
     graphqlErrors,
     fetchError,

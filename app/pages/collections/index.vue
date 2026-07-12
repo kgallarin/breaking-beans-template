@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import CollectionCard from '@components/collections/CollectionCard.vue';
+
   useSeoPage({
     title: 'Collections',
   });
@@ -7,18 +9,14 @@
 </script>
 
 <template>
-  <div class="collections-index">
+  <div class="collections-index w-full">
     <div v-if="loading">Fetching data Collections</div>
     <div v-else-if="fetchError">HTTP Error: {{ fetchError.message }}</div>
 
-    <div v-else class="my-4 grid w-full grid-cols-2 gap-4">
-      <div v-for="item in items" :key="item?.id">
-        <div class="bg-amber-50 p-4">
-          <h1>{{ item?.title }}</h1>
-          {{ item?.handle }}
-          <p>{{ item?.description }}</p>
-        </div>
-      </div>
+    <div v-else class="grid grid-cols-3 gap-4 py-4">
+      <template v-for="collection in items" :key="collection?.id">
+        <collection-card :collection="collection as Collection" :loading="loading" />
+      </template>
     </div>
   </div>
 </template>

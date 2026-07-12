@@ -29,7 +29,7 @@
 
 <template>
   <div
-    class="product-card flex flex-col divide-y rounded-md border border-amber-300 bg-white p-2 text-white"
+    class="product-card flex w-full flex-col divide-y rounded-md border border-amber-300 bg-white p-2 text-white"
   >
     <div class="flex flex-1 flex-col pb-4 text-blue-900">
       <div class="img-wrapper mb-4 h-55 w-full">

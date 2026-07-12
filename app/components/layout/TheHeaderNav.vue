@@ -32,7 +32,7 @@
   <div class="bg-white px-4 py-8">
     <div class="nav-inner flex justify-between">
       <NuxtLink to="/"> Breaking Beans </NuxtLink>
-      <nav class="create-base-nav-list flex gap-8">
+      <nav class="create-base-nav-list flex gap-8" aria-label="header-nav">
         <template v-for="nav in computedNavLinks" :key="nav.label">
           <NuxtLink
             :to="nav.href"

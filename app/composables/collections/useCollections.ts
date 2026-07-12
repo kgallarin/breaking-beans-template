@@ -1,13 +1,5 @@
 import type { ShopifyConnection } from '~~/types/Shopify';
 
-interface Collection {
-  id: string;
-  title: string;
-  description: string;
-  handle: string;
-  updatedAt: string;
-}
-
 interface CollectionPayload {
   collections: ShopifyConnection<Collection>;
 }
