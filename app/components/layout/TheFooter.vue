@@ -21,7 +21,7 @@
 <template>
   <footer class="mt-auto pt-20">
     <div class="footer-inner bg-blue-100 px-4 py-8">
-      <nav class="create-base-nav-list flex gap-4">
+      <nav class="create-base-nav-list flex gap-4" aria-label="footer-nav">
         <NuxtLink
           v-for="nav in computedNavLinks"
           :key="nav.label"

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+  import type { Product } from '~~/types/Products';
+
   useSeoPage({
     title: 'Enjoy Freshness',
   });
   const route = useRoute();
   const handle = computed(() => route.params.handle as string);
-  const { data, loading, fetchError, graphqlErrors } = useCollectionProducts(
+  const { items, loading, fetchError, graphqlErrors } = useCollectionProducts(
     handle.value,
   );
 </script>
@@ -14,21 +16,12 @@
     <div v-if="loading">Fetching data Collection Products</div>
     <div v-else-if="fetchError">HTTP Error: {{ fetchError.message }}</div>
     <div v-if="graphqlErrors.length">GraphQL Error: {{ graphqlErrors }}</div>
-
     <div class="w-full">
-      <h1 class="capitalize">Collection name: {{ handle }}</h1>
       <div class="grid w-full grid-cols-2 gap-4">
-        <div v-for="item in data?.nodes" :key="item.id" class="bg-gray-100 p-4">
-          <p>
-            {{ item?.title }}
-          </p>
-          <p>
-            {{ item?.description }}
-          </p>
-        </div>
+        <template v-for="product in items" :key="product?.id">
+          <product-card :product="product as Product" />
+        </template>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped></style>
