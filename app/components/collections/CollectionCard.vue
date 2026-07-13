@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { Collection } from '~~/types/Collection';
+
   const props = withDefaults(
     defineProps<{
       collection: Collection;

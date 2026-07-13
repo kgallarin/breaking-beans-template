@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3';
 import { createStorefrontFetch } from '~~/server/services/shopify/storefront.service';
-import type { Product, ProductPayload, ProductsPayload } from '~~/types/Products';
+import type { ProductPayload, ProductsPayload } from '~~/types/Products';
 import type { ShopifyApiResponse } from '~~/types/Shopify';
 
 const GET_PRODUCTS_QUERY = `

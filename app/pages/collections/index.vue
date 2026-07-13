@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import CollectionCard from '@components/collections/CollectionCard.vue';
+  import type { Collection } from '~~/types/Collection';
 
   useSeoPage({
     title: 'Collections',

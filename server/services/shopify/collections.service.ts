@@ -5,7 +5,6 @@ import type {
   CollectionProductsPayload,
   CollectionsPayload,
 } from '~~/types/Collection';
-import type { Product } from '~~/types/Products';
 import type { ShopifyApiResponse } from '~~/types/Shopify';
 
 const COLLECTIONS_QUERY = `

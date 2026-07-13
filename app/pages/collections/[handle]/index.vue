@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { Collection } from '~~/types/Collection';
+
   useSeoPage({
     title: 'Enjoy Freshness',
   });
