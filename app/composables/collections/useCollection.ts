@@ -1,6 +1,5 @@
-interface CollectionPayload {
-  collection: Collection | null;
-}
+import type { Collection, CollectionPayload } from '~~/types/Collection';
+
 export function useCollection(handle: string | MaybeRefOrGetter<string>) {
   const url = computed((): string => `/collections/${handle}`);
 

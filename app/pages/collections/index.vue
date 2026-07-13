@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import CollectionCard from '@components/collections/CollectionCard.vue';
+  import type { Collection } from '~~/types/Collection';
 
   useSeoPage({
     title: 'Collections',
@@ -15,7 +16,11 @@
 
     <div v-else class="grid grid-cols-3 gap-4 py-4">
       <template v-for="collection in items" :key="collection?.id">
-        <collection-card :collection="collection as Collection" :loading="loading" />
+        <collection-card
+          :collection="collection as Collection"
+          :loading="loading"
+          navigate-handle
+        />
       </template>
     </div>
   </div>
