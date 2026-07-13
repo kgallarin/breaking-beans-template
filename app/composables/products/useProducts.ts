@@ -40,8 +40,6 @@ export function useProducts(first = 2) {
     refresh();
   }
 
-  // watch((): void => reset());
-
   return {
     items,
     products,

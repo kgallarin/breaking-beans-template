@@ -1,6 +1,6 @@
 import type { CollectionProductsPayload } from '~~/types/Collection';
 import type { Product } from '~~/types/Products';
-import type { ShopifyConnection } from '~~/types/Shopify';
+import type { ShopifyConnection, ShopifyPageInfo } from '~~/types/Shopify';
 
 export function useCollectionProducts(
   handle: string | MaybeRefOrGetter<string>,
@@ -10,8 +10,12 @@ export function useCollectionProducts(
     (): string => `/collections/${toValue(handle)}/products`,
   );
 
-  const after = ref<string | null>(null);
-  const extraPages = ref<(Product | null | undefined)[]>([]);
+  const { appendedPageItems, after, loadMore, reset } = useCursorPagination({
+    getItems: (): (Product | null | undefined)[] => items.value,
+    getPageInfo: (): ShopifyPageInfo | null => pageInfo.value,
+    getLoading: (): boolean => loading.value,
+    onRefresh: (): Promise<void> => refresh(),
+  });
 
   const { items, loading, graphqlErrors, fetchError, refresh, execute, pageInfo } =
     useFetchList<Product, CollectionProductsPayload>(
@@ -25,30 +29,12 @@ export function useCollectionProducts(
         );
       },
       {
-        query: computed(() => ({
+        query: computed((): { first: number; after: string | undefined } => ({
           first,
           after: after.value ?? undefined,
         })),
       },
     );
-
-  const collectionProducts = computed((): (Product | null | undefined)[] =>
-    loading.value && after.value
-      ? extraPages.value
-      : [...extraPages.value, ...items.value],
-  );
-
-  function loadMore(): void {
-    if (!pageInfo.value?.hasNextPage || loading.value) return;
-    extraPages.value = [...extraPages.value, ...items.value];
-    after.value = pageInfo.value.endCursor ?? null;
-  }
-
-  function reset(): void {
-    after.value = null;
-    extraPages.value = [];
-    refresh();
-  }
 
   watch(
     (): string => toValue(handle),
@@ -56,7 +42,7 @@ export function useCollectionProducts(
   );
 
   return {
-    collectionProducts,
+    collectionProducts: appendedPageItems,
     pageInfo,
     items,
     loading,
