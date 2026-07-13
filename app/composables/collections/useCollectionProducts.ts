@@ -8,7 +8,7 @@ interface CollectionProductsPayload {
 }
 export function useCollectionProducts(
   handle: string | MaybeRefOrGetter<string>,
-  first = 1,
+  first = 2,
 ) {
   const collectionProductsUrl = computed(
     (): string => `/collections/${toValue(handle)}/products`,
@@ -36,7 +36,7 @@ export function useCollectionProducts(
       },
     );
 
-  const products = computed((): (Product | null | undefined)[] =>
+  const collectionProducts = computed((): (Product | null | undefined)[] =>
     loading.value && after.value
       ? extraPages.value
       : [...extraPages.value, ...items.value],
@@ -60,7 +60,7 @@ export function useCollectionProducts(
   );
 
   return {
-    products,
+    collectionProducts,
     pageInfo,
     items,
     loading,
