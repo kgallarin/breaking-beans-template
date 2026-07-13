@@ -1,5 +1,6 @@
 import type { H3Event } from 'h3';
 import { createStorefrontFetch } from '~~/server/services/shopify/storefront.service';
+import type { Product } from '~~/types/Products';
 import type { ShopifyApiResponse } from '~~/types/Shopify';
 
 const COLLECTIONS_QUERY = `
@@ -19,10 +20,10 @@ const COLLECTIONS_QUERY = `
 `;
 
 const COLLECTION_PRODUCTS_QUERY = `
-    query getCollectionProducts($handle: String!, $first: Int!) {
+    query getCollectionProducts($handle: String!, $first: Int!, $after: String) {
       collection(handle: $handle) {
         title
-        products(first: $first) {
+        products(first: $first, after: $after) {
           nodes {
             id
             title
@@ -38,6 +39,11 @@ const COLLECTION_PRODUCTS_QUERY = `
                 currencyCode
               }
             }
+          }
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            endCursor
           }
         }
       }
@@ -59,6 +65,7 @@ export async function getCollectionByHandle(
         id
         title
         description
+        handle
         products(first: $first) {
           nodes {
             id
@@ -97,13 +104,23 @@ export async function getCollectionProducts(
   event: H3Event,
   handle: string,
   first = 10,
+  after?: string,
 ) {
   const storeFrontFetch = createStorefrontFetch(event);
-  return await storeFrontFetch('', {
+  const response = await storeFrontFetch('', {
     method: 'POST',
     body: JSON.stringify({
       query: COLLECTION_PRODUCTS_QUERY,
-      variables: { handle, first },
+      variables: { handle, first, after },
     }),
   });
+
+  if (!response.errors?.length && response.data?.collection === null) {
+    throw createError({
+      status: 404,
+      message: `Collection for "${handle}" not found`,
+    });
+  }
+
+  return response;
 }

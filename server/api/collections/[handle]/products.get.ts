@@ -3,7 +3,7 @@ import { getCollectionProducts } from '~~/server/services/shopify/collections.se
 
 export default defineEventHandler(async (event: H3Event) => {
   const handle = getRouterParam(event, 'handle');
-  const { first } = getQuery(event);
+  const { first, after } = getQuery(event);
 
   if (!handle) {
     throw createError({
@@ -11,5 +11,10 @@ export default defineEventHandler(async (event: H3Event) => {
       message: 'Handle is required.',
     });
   }
-  return await getCollectionProducts(event, handle, Number(first) || 10);
+  return await getCollectionProducts(
+    event,
+    handle,
+    Number(first) || 10,
+    typeof after === 'string' ? after : undefined,
+  );
 });
