@@ -1,8 +1,5 @@
-import type { Product } from '~~/types/Products';
+import type { Product, ProductPayload } from '~~/types/Products';
 
-interface ProductPayload {
-  product: Product | null;
-}
 export function useProduct(handle: string | MaybeRefOrGetter<string>) {
   const url = computed((): string => `/products/${handle}`);
   const { data, loading, fetchError, graphqlErrors, refresh, status, execute } =

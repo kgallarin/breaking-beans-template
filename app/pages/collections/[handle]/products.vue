@@ -32,8 +32,8 @@
       <base-button
         v-if="pageInfo?.hasNextPage"
         :disabled="loading"
-        @click.prevent.stop="loadMore"
         class="mx-auto my-12 block w-fit"
+        @click.prevent.stop="loadMore"
       >
         {{ loading ? 'Loading' : 'Load more' }}
       </base-button>

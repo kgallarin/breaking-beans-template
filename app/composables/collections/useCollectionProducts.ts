@@ -1,11 +1,7 @@
+import type { CollectionProductsPayload } from '~~/types/Collection';
 import type { Product } from '~~/types/Products';
 import type { ShopifyConnection } from '~~/types/Shopify';
 
-interface CollectionProductsPayload {
-  collection: {
-    products: ShopifyConnection<Product>;
-  };
-}
 export function useCollectionProducts(
   handle: string | MaybeRefOrGetter<string>,
   first = 2,

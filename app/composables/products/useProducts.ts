@@ -1,10 +1,8 @@
-import type { Product } from '~~/types/Products';
+import type { Product, ProductsPayload } from '~~/types/Products';
 import type { ShopifyConnection } from '~~/types/Shopify';
 
 // payload from shopify
-interface ProductsPayload {
-  products: ShopifyConnection<Product>;
-}
+
 export function useProducts(first = 2) {
   const productsUrl = computed((): string => `/products`);
   const after = ref<string | null>(null);

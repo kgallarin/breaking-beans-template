@@ -1,4 +1,5 @@
 import type { MoneyV2 } from './Shopify';
+import { ShopifyConnection } from './Shopify';
 
 export interface ProductImage {
   url: string;
@@ -22,4 +23,13 @@ export interface Product {
   variants?: {
     nodes: ProductVariant[];
   };
+}
+
+// payloads
+interface ProductsPayload {
+  products: ShopifyConnection<Product>;
+}
+
+interface ProductPayload {
+  product: Product | null;
 }

@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3';
 import { createStorefrontFetch } from '~~/server/services/shopify/storefront.service';
-import type { Product } from '~~/types/Products';
+import type { Product, ProductPayload, ProductsPayload } from '~~/types/Products';
 import type { ShopifyApiResponse } from '~~/types/Shopify';
 
 const GET_PRODUCTS_QUERY = `
@@ -76,7 +76,11 @@ const GET_PRODUCT_QUERY = `
   }
 `;
 
-export async function getProducts(event: H3Event, first = 10, after?: string) {
+export async function getProducts(
+  event: H3Event,
+  first = 10,
+  after?: string,
+): Promise<ShopifyApiResponse<ProductsPayload>> {
   const storeFrontFetch = createStorefrontFetch(event);
   return await storeFrontFetch('', {
     method: 'POST',
@@ -90,11 +94,7 @@ export async function getProducts(event: H3Event, first = 10, after?: string) {
 export async function getProduct(
   event: H3Event,
   handle: string,
-): Promise<
-  ShopifyApiResponse<{
-    product: Product | null;
-  }>
-> {
+): Promise<ShopifyApiResponse<ProductPayload>> {
   const storeFrontFetch = createStorefrontFetch(event);
 
   return await storeFrontFetch('', {

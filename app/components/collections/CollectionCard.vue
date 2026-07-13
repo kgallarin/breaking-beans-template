@@ -3,7 +3,7 @@
     defineProps<{
       collection: Collection;
       navigateHandle?: boolean;
-      loading: boolean;
+      loading?: boolean;
     }>(),
     {
       navigateHandle: false,
