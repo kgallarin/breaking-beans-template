@@ -5,6 +5,7 @@
   import { useCartStore } from '@store/cart/cart.store';
 
   import { useAuthStore } from '@store/auth/auth.store';
+  import TheSidebar from '@components/layout/TheSidebar.vue';
 
   const cartStore = useCartStore();
   const { itemCount } = storeToRefs(cartStore);
@@ -62,6 +63,7 @@
 <template>
   <div data-testid="d-layout" class="flex h-full flex-col">
     <the-header-nav :nav-links="mainNavigations" @nav-item-click="handleNavAction" />
+    <the-sidebar />
     <div class="md:px-4 lg:px-8">
       <slot />
     </div>
