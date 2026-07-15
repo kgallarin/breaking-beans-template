@@ -21,7 +21,7 @@
   <div class="collections-index">
     <div v-if="loading">Fetching data Collection Products</div>
     <div v-else-if="fetchError">HTTP Error: {{ fetchError.message }}</div>
-    <div v-if="graphqlErrors.length">GraphQL Error: {{ graphqlErrors }}</div>
+    <div v-else-if="graphqlErrors.length">GraphQL Error: {{ graphqlErrors }}</div>
     <div v-else class="w-full">
       <div class="grid w-full grid-cols-2 gap-4">
         <template v-for="product in collectionProducts" :key="product?.id">
