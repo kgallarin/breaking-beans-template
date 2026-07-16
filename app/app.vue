@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { useAuthStore } from '~/stores/auth/auth.store';
+  import { ConfigProvider } from 'reka-ui';
 
   useSeoMeta({
     titleTemplate: '%s | Breaking Beans Philippines',
@@ -17,8 +18,10 @@
 
 <template>
   <div data-testid="app-root" class="h-full">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <ConfigProvider>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </ConfigProvider>
   </div>
 </template>

@@ -53,6 +53,7 @@ export default defineNuxtConfig({
         '@vue/devtools-kit',
         '@vueuse/components',
         'clsx',
+        'reka-ui',
         'tailwind-merge',
       ],
     },

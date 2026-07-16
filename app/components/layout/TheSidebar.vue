@@ -1,22 +1,38 @@
 <script setup lang="ts">
   import { vOnClickOutside } from '@vueuse/components';
+  import {
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHandle,
+    DrawerOverlay,
+    DrawerPortal,
+    DrawerRoot,
+    DrawerTitle,
+  } from 'reka-ui';
 
   const { isSidebarOpen, closeSidebar } = useSidebar();
+
+  const sideBarIsOpen = defineModel<boolean>('isSidebarOpen', { default: false });
 
   function handleClickOutside(): void {
     closeSidebar();
   }
-
-  // const open = defineModel<boolean>('open', { default: false });
 </script>
 
 <template>
-  <template v-if="isSidebarOpen">
-    <div
-      v-on-click-outside="handleClickOutside"
-      class="sidebar-main fixed right-0 z-40 h-full w-1/2 bg-white"
-    >
-      <div class="sidebar-inner p-8">hello I am sidebar.</div>
-    </div>
-  </template>
+  <drawer-root v-model:isSidebarOpen="sideBarIsOpen">
+    <drawer-portal>
+      <drawer-overlay>
+        <drawer-content>
+          <drawer-handle />
+          <div>
+            <drawer-title> title </drawer-title>
+            <drawer-description> description </drawer-description>
+          </div>
+        </drawer-content>
+        <drawer-close> close </drawer-close>
+      </drawer-overlay>
+    </drawer-portal>
+  </drawer-root>
 </template>
