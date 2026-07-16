@@ -56,6 +56,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0",
     "vitest": "^4.1.9",
+    "vue-component-type-helpers": "^3.3.7",
     "vue-tsc": "^3.3.5"
   },
   "allowScripts": {

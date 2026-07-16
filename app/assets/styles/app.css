@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "drawer.css";
 
 html, body {
     margin: 0;

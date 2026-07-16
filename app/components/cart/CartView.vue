@@ -35,7 +35,7 @@
 </script>
 
 <template>
-  <div class="min-w-4lg mx-auto flex h-full w-4xl flex-col">
+  <div class="min-w-4lg mx-auto flex h-full w-4xl flex-col p-4">
     <div class="flex items-center justify-between border-b px-6 py-4">
       <h1>Cart Items: {{ itemCount }}</h1>
     </div>
@@ -47,7 +47,7 @@
       <p class="text-gray-400">Your cart is empty. Add more!</p>
     </div>
 
-    <ul v-else class="flex-1 divide-y overflow-y-auto">
+    <ul v-else class="max-h-[75vh] flex-1 divide-y overflow-y-auto">
       <li v-for="line in cartItems" :key="line.id" class="flex gap-4 px-6 py-4">
         <img
           v-if="line.merchandise.product.featuredImage"

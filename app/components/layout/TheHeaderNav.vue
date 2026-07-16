@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import type { NavLink } from '~~/types/App';
   import { useAuthStore } from '@store/auth/auth.store';
-  // import { useAppStore } from '@store/app/app.store';
 
   const authStore = useAuthStore();
   // const { openSidebar } = useAppStore();
@@ -13,6 +12,7 @@
 
   const emit = defineEmits<{
     navItemClick: [itemLabel: string];
+    triggerSidebar: [];
   }>();
 
   const computedNavLinks = computed(() => {
@@ -28,13 +28,17 @@
 
     emit('navItemClick', nav.label.toLowerCase());
   }
+
+  function handleBurgerClick() {
+    emit('triggerSidebar');
+  }
 </script>
 
 <template>
   <div class="bg-white px-4 py-8">
     <div class="nav-inner flex justify-between">
       <div class="flex gap-4">
-        <div class="cursor-pointer">
+        <div class="cursor-pointer" @click="handleBurgerClick">
           <fa-icon :icon="['fas', 'bars']" class="text-xl" />
         </div>
 
