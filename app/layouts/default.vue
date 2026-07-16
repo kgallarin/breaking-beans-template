@@ -1,13 +1,12 @@
 <script setup lang="ts">
+  import { markRaw } from 'vue';
   import TheHeaderNav from '~/components/layout/TheHeaderNav.vue';
-  // import CartView from '';
   import TheFooter from '~/components/layout/TheFooter.vue';
 
   import type { NavLink } from '~~/types/App';
   import { useCartStore } from '@store/cart/cart.store';
 
   import { useAuthStore } from '@store/auth/auth.store';
-  import TheSidebarDrawer from '@components/layout/TheSidebarDrawer.vue';
 
   const cartStore = useCartStore();
   const { itemCount } = storeToRefs(cartStore);
@@ -71,7 +70,7 @@
 
   const { open } = useDrawer();
   function handleCartClick() {
-    open(CartView, undefined, 'right');
+    open(markRaw(CartView), undefined, 'right', 'your shopping cart');
   }
 </script>
 <template>

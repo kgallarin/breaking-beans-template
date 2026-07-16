@@ -1,4 +1,4 @@
-import { type Component } from 'vue';
+import { type Component, markRaw } from 'vue';
 
 import type { ComponentProps } from '#build/types/layouts';
 
@@ -8,19 +8,22 @@ const isDrawerOpen = ref(false);
 const activeComponent = shallowRef<Component | null>(null);
 const componentProps = ref<Record<string, unknown>>({});
 const drawerDirection = ref<DrawerDirection>('down');
+const drawerTitle = ref<string>('Default Drawer Title');
 
 export function useDrawer() {
   function open<T extends Component>(
     component: T,
     ...args: {} extends ComponentProps<T>
-      ? [props?: ComponentProps<T>, direction?: DrawerDirection]
-      : [props: ComponentProps<T>, direction?: DrawerDirection]
+      ? [props?: ComponentProps<T>, direction?: DrawerDirection, title?: string]
+      : [props: ComponentProps<T>, direction?: DrawerDirection, title?: string]
   ) {
-    const [props, direction = 'down'] = args;
+    const [props, direction = 'down', title = 'Default Drawer Title'] = args;
 
-    activeComponent.value = component;
+    activeComponent.value = markRaw(component);
     componentProps.value = (props as Record<string, unknown>) || {};
     drawerDirection.value = direction;
+    drawerTitle.value = title;
+
     isDrawerOpen.value = true;
   }
   function closeDrawer(): void {
@@ -32,6 +35,7 @@ export function useDrawer() {
 
   return {
     isOpen: readonly(isDrawerOpen),
+    title: readonly(drawerTitle),
     activeComponent: readonly(activeComponent),
     componentProps: readonly(componentProps),
     direction: readonly(drawerDirection),

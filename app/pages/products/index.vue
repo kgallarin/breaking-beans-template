@@ -5,7 +5,7 @@
   useSeoPage({
     title: 'Espresso',
   });
-  const { products, loading, fetchError, pageInfo, loadMore } = useProducts();
+  const { products, loading, pageInfo, loadMore } = useProducts();
 </script>
 
 <template>

@@ -1,25 +1,18 @@
 @layer components {
-    .drawer-overlay[data-state='open'] {
+    .drawer-overlay {
         --overlay-duration: 750ms;
         --overlay-in-easing: cubic-bezier(0.22, 1, 0.36, 1);
-        --overlay-out-easing: cubic-bezier(0.4, 0, 0.6, 1);
+        --overlay-out-easing: cubic-bezier(0.38, 0, 0.23, 1);
 
-        @apply bg-[rgba(0,0,0,0.2)] fixed inset-0 z-40;
-    }
+        @apply bg-[rgba(0,0,0,0.3)] fixed inset-0 z-40;
 
-    .drawer-overlay[data-state='closed'] {
-        animation: drawer-overlay-out var(--overlay-duration) var(--overlay-out-easing) forwards;
-    }
+        &[data-state='open'] {
+            animation: drawer-overlay-in var(--overlay-duration) var(--overlay-in-easing) forwards;
+        }
 
-    .drawer-overlay[data-state='open'] {
-        animation: drawer-overlay-in var(--overlay-duration) var(--overlay-in-easing) forwards;
-    }
-
-    /* Silence the transform transition during an active drag so it tracks the
-    pointer in real time. */
-    .drawer-content[data-swiping] {
-        @apply duration-[0] select-none;
-        translate: var(--drawer-swipe-movement-x, 0px) var(--drawer-swipe-movement-y, 0px);
+        &[data-state='closed'] {
+            animation: drawer-overlay-out var(--overlay-duration) var(--overlay-out-easing) forwards;
+        }
     }
 
     @keyframes drawer-overlay-in {
@@ -41,13 +34,19 @@
     }
 
     .drawer-content {
-        --drawer-duration: 450ms;
+        --drawer-duration: 750ms;
         --drawer-easing: cubic-bezier(0.32, 0.72, 0, 1);
 
         @apply fixed z-50 bg-white will-change-transform;
 
-        /* `--drawer-swipe-movement-y` is written by drawer-content while dragging. */
-        /*translate: var(--drawer-swipe-movement-x, 0px) var(--drawer-swipe-movement-y, 0px);*/
+        /* Silence the transform transition during an active drag so it tracks the pointer in real time. */
+        &[data-swiping] {
+            @apply duration-[0] select-none;
+
+            /* `--drawer-swipe-movement-y` is written by drawer-content while dragging. */
+            /*translate: var(--drawer-swipe-movement-x, 0px) var(--drawer-swipe-movement-y, 0px);*/
+            translate: var(--drawer-swipe-progress, 30px) var(--drawer-swipe-movement-y, 0px);
+        }
 
         &[data-state='open'] {
             animation: var(--drawer-duration) var(--drawer-easing) forwards;
@@ -56,7 +55,6 @@
         &[data-state='closed'] {
             animation: var(--drawer-duration) var(--drawer-easing) forwards;
         }
-
 
         /* - -  from down  - - - */
         &[data-direction='down'] {
@@ -71,7 +69,7 @@
 
         /* - -  from right  - - - */
         &[data-direction='right'] {
-            @apply top-0 right-0 bottom-0 w-full max-w-5/6 h-screen;
+            @apply top-0 right-0 bottom-0 w-full max-w-1/2 h-screen;
         }
         &[data-direction='right'][data-state='open'] {
             animation-name: drawer-slide-right-in;

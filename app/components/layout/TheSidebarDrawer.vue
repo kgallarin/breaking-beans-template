@@ -1,6 +1,4 @@
-<script setup lang="ts">
-  const sideBarIsOpen = defineModel<boolean>('open', { default: false });
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
