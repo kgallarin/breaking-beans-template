@@ -1,8 +1,10 @@
 <script setup lang="ts">
   import type { NavLink } from '~~/types/App';
   import { useAuthStore } from '@store/auth/auth.store';
+  // import { useAppStore } from '@store/app/app.store';
 
   const authStore = useAuthStore();
+  // const { openSidebar } = useAppStore();
   const { isLoggedIn } = storeToRefs(authStore);
 
   const props = defineProps<{
@@ -31,7 +33,13 @@
 <template>
   <div class="bg-white px-4 py-8">
     <div class="nav-inner flex justify-between">
-      <NuxtLink to="/"> Breaking Beans </NuxtLink>
+      <div class="flex gap-4">
+        <div class="cursor-pointer">
+          <fa-icon :icon="['fas', 'bars']" class="text-xl" />
+        </div>
+
+        <NuxtLink to="/"> Breaking Beans </NuxtLink>
+      </div>
       <nav class="create-base-nav-list flex gap-8" aria-label="header-nav">
         <template v-for="nav in computedNavLinks" :key="nav.label">
           <NuxtLink
