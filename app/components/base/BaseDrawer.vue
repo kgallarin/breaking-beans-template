@@ -5,6 +5,7 @@
     DrawerPortal,
     DrawerRoot,
     DrawerTitle,
+    DrawerHandle,
   } from 'reka-ui';
 
   const drawer = useDrawer();
@@ -24,16 +25,22 @@
       <drawer-content
         class="drawer-content p-4"
         :data-direction="drawer.direction.value"
-        disable-outside-pointer-events
       >
-        <drawer-title class="text-center text-lg capitalize">
-          {{ drawer.title.value ?? 'Drawer' }}
-        </drawer-title>
-        <div v-if="drawer.activeComponent.value" class="drawer-scroll-area">
-          <component
-            :is="drawer.activeComponent.value"
-            v-bind="drawer.componentProps.value"
-          />
+        <drawer-handle
+          class="drawer-handle"
+          :data-direction="drawer.direction.value"
+          @selectstart.prevent
+        />
+        <div class="flex h-full w-full flex-col" @pointerdown.stop @touchstart.stop>
+          <drawer-title class="text-center text-lg capitalize">
+            {{ drawer.title.value ?? 'Drawer' }}
+          </drawer-title>
+          <div v-if="drawer.activeComponent.value" class="drawer-scroll-area">
+            <component
+              :is="drawer.activeComponent.value"
+              v-bind="drawer.componentProps.value"
+            />
+          </div>
         </div>
       </drawer-content>
     </drawer-portal>

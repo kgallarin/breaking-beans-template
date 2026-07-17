@@ -38,7 +38,7 @@
 </script>
 
 <template>
-  <div class="mx-auto flex h-full w-4xl w-full flex-col p-4">
+  <div class="mx-auto flex h-full w-full flex-col p-4">
     <div class="flex items-center justify-between border-b px-6 py-4">
       <h1>Cart Items: {{ itemCount }}</h1>
     </div>

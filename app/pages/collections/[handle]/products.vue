@@ -15,7 +15,7 @@
 <template>
   <div class="collections-index">
     <div class="w-full">
-      <div class="grid w-full grid-cols-2 gap-4">
+      <div class="grid w-full grid-cols-4 gap-4">
         <template v-for="product in collectionProducts" :key="product?.id">
           <product-card :product="product as Product" />
         </template>

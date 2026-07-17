@@ -59,6 +59,11 @@ export default defineNuxtConfig({
     },
     server: {
       allowedHosts: ['shopify-breaking-beans.loomberryliving.com'],
+      hmr: {
+        protocol: 'wss',
+        host: 'shopify-breaking-beans.loomberryliving.com',
+        clientPort: 443,
+      },
     },
   },
   alias: {
