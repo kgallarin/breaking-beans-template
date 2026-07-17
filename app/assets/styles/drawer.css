@@ -1,0 +1,133 @@
+@layer components {
+    .drawer-overlay {
+        --overlay-duration: 750ms;
+        --overlay-in-easing: cubic-bezier(0.22, 1, 0.36, 1);
+        --overlay-out-easing: cubic-bezier(0.38, 0, 0.23, 1);
+
+        @apply bg-[rgba(0,0,0,0.3)] fixed inset-0 z-40;
+
+        &[data-state='open'] {
+            animation: drawer-overlay-in var(--overlay-duration) var(--overlay-in-easing) forwards;
+        }
+
+        &[data-state='closed'] {
+            animation: drawer-overlay-out var(--overlay-duration) var(--overlay-out-easing) forwards;
+        }
+    }
+
+    @keyframes drawer-overlay-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes drawer-overlay-out {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+
+    .drawer-content {
+        --drawer-duration: 750ms;
+        --drawer-easing: cubic-bezier(0.32, 0.72, 0, 1);
+
+        @apply fixed z-50 bg-white will-change-transform;
+
+        /* Silence the transform transition during an active drag so it tracks the pointer in real time. */
+        &[data-swiping] {
+            @apply duration-[0] select-none;
+
+            /* `--drawer-swipe-movement-y` is written by drawer-content while dragging. */
+            /*translate: var(--drawer-swipe-movement-x, 0px) var(--drawer-swipe-movement-y, 0px);*/
+            translate: var(--drawer-swipe-progress, 30px) var(--drawer-swipe-movement-y, 0px);
+        }
+
+        &[data-state='open'] {
+            animation: var(--drawer-duration) var(--drawer-easing) forwards;
+        }
+
+        &[data-state='closed'] {
+            animation: var(--drawer-duration) var(--drawer-easing) forwards;
+        }
+
+        /* - -  from down  - - - */
+        &[data-direction='down'] {
+            @apply bottom-0 left-0 right-0 h-auto;
+        }
+        &[data-direction='down'][data-state='open'] {
+            animation-name: drawer-slide-down-in;
+        }
+        &[data-direction='down'][data-state='closed'] {
+            animation-name: drawer-slide-down-out;
+        }
+
+        /* - -  from right  - - - */
+        &[data-direction='right'] {
+            @apply top-0 right-0 bottom-0 w-full max-w-1/2 h-screen;
+        }
+        &[data-direction='right'][data-state='open'] {
+            animation-name: drawer-slide-right-in;
+        }
+        &[data-direction='right'][data-state='closed'] {
+            animation-name: drawer-slide-right-out;
+        }
+
+        /* - -  from left  - - - */
+        &[data-direction='left'] {
+            @apply top-0 left-0 bottom-0 w-full max-w-1/2 h-screen;
+        }
+        &[data-direction='left'][data-state='open'] {
+            animation-name: drawer-slide-left-in;
+        }
+        &[data-direction='left'][data-state='closed'] {
+            animation-name: drawer-slide-left-out;
+        }
+    }
+
+
+    /* - -  from down  - - - */
+    @keyframes drawer-slide-down-in {
+        from {
+            translate: 0 100%;
+        }
+    }
+    @keyframes drawer-slide-down-out {
+        to {
+            translate: 0 100%;
+            opacity: 0;
+        }
+    }
+
+    /* - -  from right  - - - */
+    @keyframes drawer-slide-right-in {
+        from {
+            translate: 100% 0;
+        }
+    }
+
+    @keyframes drawer-slide-right-out {
+        to {
+            translate: 100% 0;
+        }
+    }
+
+    /* - -  from left  - - - */
+    @keyframes drawer-slide-left-in {
+        from {
+            translate: -100% 0;
+        }
+    }
+
+    @keyframes drawer-slide-left-out {
+        to {
+            translate: -100% 0;
+        }
+    }
+
+}
