@@ -5,13 +5,17 @@
   useSeoPage({
     title: 'Espresso',
   });
-  const { products, loading, pageInfo, loadMore } = useProducts();
+  const { products, loading, pageInfo, loadMore, status } = useProducts();
 </script>
 
 <template>
   <div class="product-index w-full">
+    <!--    <div v-if="status === 'pending'">pending ...</div>-->
+    <div class="tex h-14 text-red-300">
+      {{ status }}
+    </div>
     <div class="w-full">
-      <div class="grid grid-cols-2 gap-4 py-4">
+      <div class="grid grid-cols-4 gap-4 py-4">
         <template v-for="product in products" :key="product?.id">
           <product-card :product="product as Product" />
         </template>

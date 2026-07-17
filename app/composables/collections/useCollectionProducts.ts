@@ -4,7 +4,7 @@ import type { ShopifyConnection, ShopifyPageInfo } from '~~/types/Shopify';
 
 export function useCollectionProducts(
   handle: string | MaybeRefOrGetter<string>,
-  first = 2,
+  first = 4,
 ) {
   const collectionProductsUrl = computed(
     (): string => `/collections/${toValue(handle)}/products`,
