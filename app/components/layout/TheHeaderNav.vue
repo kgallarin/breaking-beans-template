@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { NavLink } from '~~/types/App';
   import { useAuthStore } from '@store/auth/auth.store';
+  import { useMediaQuery } from '@vueuse/core';
 
   const authStore = useAuthStore();
   // const { openSidebar } = useAppStore();
@@ -14,6 +15,10 @@
     navItemClick: [itemLabel: string];
     triggerSidebar: [];
   }>();
+
+  const isDesktop = import.meta.client
+    ? useMediaQuery('(min-width: 1024px)') // @todo:add to constants
+    : ref(false);
 
   const computedNavLinks = computed(() => {
     return props.navLinks.filter((link: NavLink) => {
@@ -29,22 +34,24 @@
     emit('navItemClick', nav.label.toLowerCase());
   }
 
-  function handleBurgerClick() {
-    emit('triggerSidebar');
-  }
+  const { openSidebar } = useSidebar();
 </script>
 
 <template>
   <div class="bg-white px-4 py-8">
     <div class="nav-inner flex justify-between">
       <div class="flex gap-4">
-        <div class="cursor-pointer" @click="handleBurgerClick">
+        <div v-if="!isDesktop" class="cursor-pointer" @click="openSidebar">
           <fa-icon :icon="['fas', 'bars']" class="text-xl" />
         </div>
 
         <NuxtLink to="/"> Breaking Beans </NuxtLink>
       </div>
-      <nav class="create-base-nav-list flex gap-8" aria-label="header-nav">
+      <nav
+        v-if="isDesktop"
+        class="create-base-nav-list flex gap-8"
+        aria-label="header-nav"
+      >
         <template v-for="nav in computedNavLinks" :key="nav.label">
           <NuxtLink
             :to="nav.href"
