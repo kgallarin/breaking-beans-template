@@ -34,7 +34,7 @@
     emit('navItemClick', nav.label.toLowerCase());
   }
 
-  const { closeSidebar, openSidebar } = useSidebar();
+  const { openSidebar } = useSidebar();
 </script>
 
 <template>

@@ -6,7 +6,7 @@
   const props = withDefaults(
     defineProps<{
       navItems: NavLink[];
-      open: boolean;
+      open?: boolean;
       theme?: string;
     }>(),
     {
