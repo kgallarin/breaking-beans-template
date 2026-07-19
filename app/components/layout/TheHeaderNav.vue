@@ -34,16 +34,14 @@
     emit('navItemClick', nav.label.toLowerCase());
   }
 
-  function handleBurgerClick() {
-    emit('triggerSidebar');
-  }
+  const { closeSidebar, openSidebar } = useSidebar();
 </script>
 
 <template>
   <div class="bg-white px-4 py-8">
     <div class="nav-inner flex justify-between">
       <div class="flex gap-4">
-        <div v-if="!isDesktop" class="cursor-pointer" @click="handleBurgerClick">
+        <div v-if="!isDesktop" class="cursor-pointer" @click="openSidebar">
           <fa-icon :icon="['fas', 'bars']" class="text-xl" />
         </div>
 
