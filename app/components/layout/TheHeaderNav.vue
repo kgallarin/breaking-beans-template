@@ -34,7 +34,7 @@
     emit('navItemClick', nav.label.toLowerCase());
   }
 
-  const { openSidebar } = useSidebar();
+  const { openSidebar, isOpen } = useSidebar();
 </script>
 
 <template>
@@ -43,6 +43,7 @@
       <div class="flex gap-4">
         <div v-if="!isDesktop" class="cursor-pointer" @click="openSidebar">
           <fa-icon :icon="['fas', 'bars']" class="text-xl" />
+          {{ isOpen }}
         </div>
 
         <NuxtLink to="/"> Breaking Beans </NuxtLink>

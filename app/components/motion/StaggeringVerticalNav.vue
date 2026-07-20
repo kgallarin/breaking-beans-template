@@ -95,7 +95,7 @@
 <template>
   <motion.div
     ref="targetRef"
-    initial="closed"
+    :initial="'closed'"
     :animate="isOpen ? 'open' : 'closed'"
     :custom="dimensions.height"
     class="relative h-full w-full"
