@@ -76,9 +76,7 @@
 <template>
   <div data-testid="d-layout" class="flex h-full flex-col">
     <the-header-nav :nav-links="mainNavigations" @nav-item-click="handleNavAction" />
-    <client-only>
-      <the-sidebar />
-    </client-only>
+    <the-sidebar />
 
     <div class="md:px-4 lg:px-8">
       <slot />

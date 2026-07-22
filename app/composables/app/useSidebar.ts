@@ -1,7 +1,6 @@
 export function useSidebar() {
-  const isOpen = useState<boolean>('sidebar-state', () => true);
+  const isOpen = useState<boolean>('sidebar-state', () => false);
   function openSidebar() {
-    console.log(1234);
     isOpen.value = true;
   }
 

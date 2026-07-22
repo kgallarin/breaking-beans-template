@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import type { NavLink } from '~~/types/App';
-  import { motion, stagger } from 'motion-v';
+  import { motion } from 'motion-v';
   import { onClickOutside } from '@vueuse/core';
 
   withDefaults(
@@ -25,6 +24,7 @@
     staggeredAnimation.value = value;
   }
 
+  // for future link contents
   // const itemLinkContainerVariants = {
   //   closed: { opacity: 0 },
   //   open: {
