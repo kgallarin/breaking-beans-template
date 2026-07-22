@@ -101,7 +101,7 @@
 <template>
   <motion.div
     ref="targetRef"
-    :initial="'closed'"
+    initial="closed"
     :animate="isOpen ? 'open' : 'closed'"
     :custom="dimensions.height"
     class="relative h-full w-full"
@@ -114,7 +114,6 @@
       @animation-start="isAnimationStartsOrCompleted"
       @animation-complete="isAnimationStartsOrCompleted"
     />
-    <!--    <div class="absolute inset-0 bg-white drop-shadow-sm" />-->
     <slot
       name="stagger-navigation"
       :variants="{ navParentVariants, navItemVariants }"
