@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { motion } from 'motion-v';
-  import { onClickOutside } from '@vueuse/core';
 
   withDefaults(
     defineProps<{
@@ -12,40 +11,23 @@
     },
   );
 
-  const { isOpen, closeSidebar } = useSidebar();
+  const { isOpen, sidebar } = useSidebar();
 
-  const sidebar = ref<HTMLDivElement | null>(null);
+  // for drop-shadow rasterize once, not every frame animation
   const staggeredAnimation = ref(false);
-  onClickOutside(sidebar, () => {
-    closeSidebar();
-  });
-
   function handleAnimationCompleted(value: boolean) {
     staggeredAnimation.value = value;
   }
 
-  // for future link contents
-  // const itemLinkContainerVariants = {
-  //   closed: { opacity: 0 },
-  //   open: {
-  //     opacity: 1,
-  //     transition: {
-  //       delayChildren: stagger(0.1, { startDelay: 0.5 }),
-  //     },
-  //   },
-  // };
-  //
-  // const itemLinkVariants = {
-  //   closed: { opacity: 0, y: 10 },
-  //   open: { opacity: 1, y: 0 },
-  // };
-
-  onBeforeUnmount(() => closeSidebar());
+  const isMounted = ref(false);
+  onMounted(() => {
+    isMounted.value = true;
+  });
 </script>
 
 <template>
   <motion.nav
-    :initial="'closed'"
+    initial="closed"
     :animate="isOpen ? 'open' : 'closed'"
     class="fixed top-0 left-0 z-50 h-full w-1/2"
     :class="{
@@ -65,7 +47,11 @@
         <template
           #stagger-navigation="{ variants: { navParentVariants, navItemVariants } }"
         >
-          <motion.ul class="nav-list text-blue-500" :variants="navParentVariants">
+          <motion.ul
+            v-if="isMounted"
+            class="nav-list text-blue-500"
+            :variants="navParentVariants"
+          >
             <motion.li
               class="nav-list-item"
               :variants="navItemVariants"
@@ -88,6 +74,12 @@
               Item three
             </motion.li>
           </motion.ul>
+          <!-- fallback for hydration -->
+          <ul v-else class="nav-list hidden text-blue-500">
+            <li class="nav-list-item">Item one</li>
+            <li class="nav-list-item">Item two</li>
+            <li class="nav-list-item">Item three</li>
+          </ul>
         </template>
       </staggering-vertical-nav>
     </div>
