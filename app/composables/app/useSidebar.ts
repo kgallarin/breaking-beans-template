@@ -1,6 +1,7 @@
 export function useSidebar() {
-  const isOpen = ref<boolean>(false);
+  const isOpen = useState<boolean>('sidebar-state', () => true);
   function openSidebar() {
+    console.log(1234);
     isOpen.value = true;
   }
 
@@ -20,7 +21,7 @@ export function useSidebar() {
   });
 
   onUnmounted(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    document.removeEventListener('keydown', handleKeyDown);
   });
 
   return {
