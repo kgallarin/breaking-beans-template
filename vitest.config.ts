@@ -9,7 +9,7 @@ export default defineVitestConfig({
 
     environmentOptions: {
       nuxt: {
-        domEnvironment: 'jsdom',
+        domEnvironment: 'happy-dom',
       },
     },
   },
