@@ -27,6 +27,7 @@
 
 <template>
   <motion.nav
+    aria-label="App Sidebar"
     initial="closed"
     :animate="isOpen ? 'open' : 'closed'"
     class="fixed top-0 left-0 z-50 h-full w-1/2"

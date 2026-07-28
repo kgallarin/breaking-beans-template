@@ -3,6 +3,10 @@ import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import { defineNuxtConfig } from 'nuxt/config';
 
+// @todo add to constants
+const IS_TESTING_CYPRESS = process.env.CYPRESS === 'true';
+const TUNNEL_HOST = process.env.TUNNEL_HOST_APP_URL;
+const USE_TUNNEL = process.env.USE_TUNNEL === 'true';
 export default defineNuxtConfig({
   app: {
     head: {
@@ -29,7 +33,7 @@ export default defineNuxtConfig({
       appUrl: '',
     },
   },
-  devtools: { enabled: true },
+  devtools: { enabled: !IS_TESTING_CYPRESS },
   components: [
     {
       path: '~/components',
@@ -60,12 +64,12 @@ export default defineNuxtConfig({
       ],
     },
     server: {
-      allowedHosts: ['shopify-breaking-beans.loomberryliving.com'],
-      hmr: {
-        protocol: 'wss',
-        host: 'shopify-breaking-beans.loomberryliving.com',
-        clientPort: 443,
-      },
+      allowedHosts:
+        USE_TUNNEL && TUNNEL_HOST ? [TUNNEL_HOST] : ['localhost', '127.0.0.1'],
+      hmr:
+        USE_TUNNEL && TUNNEL_HOST
+          ? { protocol: 'wss', host: TUNNEL_HOST, clientPort: 443 }
+          : false,
     },
   },
   alias: {

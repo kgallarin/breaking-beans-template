@@ -45,6 +45,7 @@ export default defineConfig([
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-namespace': 'off',
 
       'vue/multi-word-component-names': 'off',
       'vue/attribute-hyphenation': 'warn',
