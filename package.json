@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:tunnel": "USE_TUNNEL=true nuxt dev",
     "tsc": "vue-tsc --noEmit",
     "tsc:watch": "vue-tsc --watch",
     "lint": "eslint . --fix",
@@ -12,6 +13,10 @@
     "test:unit": "vitest --reporter=verbose",
     "ci:checks": "npm run lint && npm run test:ci && npm run tsc",
     "test:ci": "vitest --run",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e": "CYPRESS=true start-server-and-test dev http://localhost:3000 cy:open",
+    "test:e2e:ci": "CYPRESS=true nuxt build && start-server-and-test preview http://localhost:3000 cy:run",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -48,12 +53,14 @@
     "@testing-library/vue": "^8.1.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^26.0.1",
+    "cypress": "^15.19.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.2",
     "globals": "^17.7.0",
     "happy-dom": "^20.11.0",
     "prettier": "^3.9.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "start-server-and-test": "^3.0.11",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0",
     "vitest": "^4.1.9",
@@ -64,6 +71,7 @@
     "@parcel/watcher@2.5.6": true,
     "esbuild@0.28.1": true,
     "fsevents@2.3.3": true,
-    "vue-demi@0.14.10": true
+    "vue-demi@0.14.10": true,
+    "cypress@15.19.0": true
   }
 }

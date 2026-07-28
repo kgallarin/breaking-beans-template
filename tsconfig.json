@@ -10,6 +10,7 @@
     "./server/**/*",
     "./tests/**/*.spec.ts",
     "./tests/**/*.test.ts",
-    "./types/**/*.ts",
-  ]
+    "./types/**/*.ts"
+  ],
+  "exclude": ["tests/e2e"]
 }

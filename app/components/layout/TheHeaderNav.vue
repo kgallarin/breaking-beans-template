@@ -42,11 +42,13 @@
         <NuxtLink to="/"> Breaking Beans </NuxtLink>
       </div>
       <nav
+        data-testid="header-nav"
+        aria-label="Header Navigation"
         class="create-base-nav-list gap-8 sm:hidden md:hidden lg:flex"
-        aria-label="header-nav"
       >
         <template v-for="nav in computedNavLinks" :key="nav.label">
           <NuxtLink
+            :data-testid="`nav-header-${nav.label.toLowerCase()}`"
             :to="nav.href"
             class="relative cursor-pointer"
             @click.prevent.stop="handleNavClick(nav)"
