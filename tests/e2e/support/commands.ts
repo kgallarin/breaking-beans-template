@@ -1,4 +1,3 @@
-import Chainable = Cypress.Chainable;
 type Options = Partial<
   Cypress.Timeoutable & Cypress.Loggable & Cypress.Withinable & Cypress.Shadow
 >;
