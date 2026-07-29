@@ -11,12 +11,12 @@
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "test:unit": "vitest --reporter=verbose",
-    "ci:checks": "npm run lint && npm run test:ci && npm run tsc",
     "test:ci": "vitest --run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e": "CYPRESS=true start-server-and-test dev http://localhost:3000 cy:open",
     "test:e2e:ci": "CYPRESS=true nuxt build && start-server-and-test preview http://localhost:3000 cy:run",
+    "ci:checks": "npm run lint && npm run test:ci && npm run test:e2e:ci && npm run tsc",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -48,12 +48,14 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
     "@nuxt/test-utils": "^4.0.3",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/vue": "^8.1.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^26.0.1",
     "cypress": "^15.19.0",
+    "cypress-vite": "^1.10.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.2",
     "globals": "^17.7.0",
@@ -63,6 +65,7 @@
     "start-server-and-test": "^3.0.11",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.9",
     "vue-component-type-helpers": "^3.3.7",
     "vue-tsc": "^3.3.5"

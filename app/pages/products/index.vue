@@ -5,14 +5,23 @@
   useSeoPage({
     title: 'Espresso',
   });
-  const { products, loading, pageInfo, loadMore, status } = useProducts();
+  const {
+    products,
+    loading,
+    pageInfo,
+    loadMore,
+    status,
+    fetchError,
+    graphqlErrors,
+  } = useProducts();
 </script>
 
 <template>
   <div class="product-index w-full">
-    <!--    <div v-if="status === 'pending'">pending ...</div>-->
+    <div v-if="status === 'pending'">pending ...</div>
     <div class="tex h-14 text-red-300">
-      {{ status }}
+      {{ fetchError }}
+      {{ graphqlErrors }}
     </div>
     <div class="w-full">
       <div class="grid grid-cols-4 gap-4 py-4">
