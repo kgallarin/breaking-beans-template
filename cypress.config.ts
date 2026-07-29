@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   e2e: {
@@ -13,6 +14,15 @@ export default defineConfig({
     retries: {
       runMode: 2,
       openMode: 0,
+    },
+  },
+  component: {
+    devServer: {
+      framework: 'vue',
+      bundler: 'vite',
+      viteConfig: {
+        plugins: [viteTsConfigPaths()],
+      },
     },
   },
 });

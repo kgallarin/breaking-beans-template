@@ -5,7 +5,13 @@
     "types": ["cypress", "node"],
     "moduleResolution": "bundler",
     "noEmit": true,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@/*": ["../../*"],
+      "@fixtures/*": ["../../tests/fixtures/*"],
+      "@support/*": ["../../tests/support/*"],
+      "@factories/*": ["../../tests/factories/*"]
+    }
   },
   "include": ["**/*.ts"]
 }
