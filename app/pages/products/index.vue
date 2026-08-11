@@ -25,7 +25,7 @@
     </div>
     <div class="w-full">
       <div class="grid grid-cols-4 gap-4 py-4">
-        <template v-for="product in products" :key="product?.id">
+        <template v-if="products" v-for="product in products" :key="product?.id">
           <product-card :product="product as Product" />
         </template>
       </div>
