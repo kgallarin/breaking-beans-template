@@ -1,4 +1,4 @@
-import { Product } from '@/types/Products';
+import type { Product } from '@/types/Products';
 import { faker } from '@faker-js/faker';
 import { defu } from 'defu';
 

@@ -8,8 +8,7 @@
     "./.nuxt/nuxt.d.ts",
     "./app/**/*",
     "./server/**/*",
-    "./tests/**/*.spec.ts",
-    "./tests/**/*.test.ts",
+    "./tests/**/*.ts",
     "./types/**/*.ts"
   ],
   "exclude": ["tests/e2e"]
