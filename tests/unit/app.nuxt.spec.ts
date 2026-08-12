@@ -1,4 +1,4 @@
-import app from '@/app/app.vue';
+import app from '@app/app.vue';
 import { renderSuspended } from '@nuxt/test-utils/runtime';
 import '@testing-library/jest-dom';
 import type { RenderResult } from '@testing-library/vue';
