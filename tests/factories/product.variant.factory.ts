@@ -20,5 +20,7 @@ export const createProductVariants = (
   quantity: number,
   overrides?: Partial<ProductVariant>,
 ): ProductVariant[] => {
-  return Array.from({ length: quantity }, () => createProductVariant());
+  return Array.from({ length: quantity }, (): ProductVariant =>
+    createProductVariant(overrides),
+  );
 };
