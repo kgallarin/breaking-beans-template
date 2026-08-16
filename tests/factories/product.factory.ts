@@ -1,4 +1,5 @@
-import { createMoneyV2 } from '@/tests/factories/moneyV2.factory.ts';
+import { createMoneyV2 } from '@/tests/factories/money.v2.factory.ts';
+import { createProductVariants } from '@/tests/factories/product.variant.factory.ts';
 import type { Product } from '@/types/Products';
 import { faker } from '@faker-js/faker';
 import { defu } from 'defu';
@@ -20,14 +21,7 @@ const productSeeder = (): Product => {
       minVariantPrice: createMoneyV2(),
     },
     variants: {
-      nodes: [
-        {
-          id: `gid://shopify/ProductVariant/${faker.number.int({ min: 1000000, max: 9999999 })}`,
-          title: faker.commerce.productName(),
-          availableForSale: faker.datatype.boolean({ probability: 0.5 }),
-          price: createMoneyV2(),
-        },
-      ],
+      nodes: createProductVariants(3),
     },
   };
 };

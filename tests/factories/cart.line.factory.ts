@@ -1,4 +1,4 @@
-import { createMoneyV2 } from '@/tests/factories/moneyV2.factory.ts';
+import { createMoneyV2 } from '@/tests/factories/money.v2.factory.ts';
 import type { CartLine } from '@/types/Cart';
 import { faker } from '@faker-js/faker';
 import { defu } from 'defu';
