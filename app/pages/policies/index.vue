@@ -1,5 +1,3 @@
 <script setup lang="ts"></script>
 
-<template>policies page.</template>
-
-<style scoped></style>
+<template>policies page. Soon</template>
