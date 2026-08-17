@@ -6,7 +6,7 @@
     title: 'Collections',
   });
 
-  const { items, loading, fetchError } = useCollections();
+  const { items, loading } = useCollections();
 </script>
 
 <template>
