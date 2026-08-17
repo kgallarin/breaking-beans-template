@@ -1,3 +1,4 @@
+import type { Product } from '@/types/Products';
 import { MoneyV2 } from '~~/types/Shopify';
 
 export interface CartLine {
@@ -11,15 +12,7 @@ export interface CartLine {
     id: string;
     title: string;
     price: MoneyV2;
-    product: {
-      id: string;
-      title: string;
-      handle: string;
-      featuredImage: {
-        url: string;
-        altText: string | null;
-      } | null;
-    };
+    product: Product;
   };
 }
 
