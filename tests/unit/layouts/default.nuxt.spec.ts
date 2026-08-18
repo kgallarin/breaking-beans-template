@@ -1,6 +1,6 @@
 import defaultLayout from '@app/layouts/default.vue';
 import { renderSuspended } from '@nuxt/test-utils/runtime';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import type { RenderResult } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 
