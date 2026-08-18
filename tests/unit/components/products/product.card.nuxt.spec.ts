@@ -27,7 +27,7 @@ const renderProductCard = async <T extends Record<string, unknown>>(
 
 describe('Product Card Unit Test Suite', (): void => {
   test('It mounts properly', async (): Promise<void> => {
-    const { getByTestId, debug } = await renderProductCard();
+    const { getByTestId } = await renderProductCard();
 
     expect(getByTestId('product-card')).toBeInTheDocument();
   });
