@@ -24,7 +24,7 @@
   <div>
     <div v-if="loading">loading ...</div>
     <div v-else class="bg-amber-50 p-4">
-      <div class="flex justify-between">
+      <div data-testid="collection-card" class="flex justify-between">
         <div
           class="mb-2 cursor-pointer font-mono text-xl underline"
           @click.prevent.stop="handleNavigate"
