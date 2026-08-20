@@ -41,4 +41,25 @@ describe('Product Card Unit Test Suite', (): void => {
 
     expect(getByTestId('product-card')).toHaveTextContent('Baby Clothing');
   });
+
+  test('It has correct formatted starting price', async (): Promise<void> => {
+    const testAmount = {
+      amount: '300.0',
+      currencyCode: 'PHP',
+    };
+    const { getByTestId } = await renderProductCard({
+      product: {
+        priceRange: {
+          minVariantPrice: testAmount,
+        },
+      },
+    });
+
+    expect(getByTestId('product-card')).toHaveTextContent(
+      Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: testAmount.currencyCode,
+      }).format(parseFloat(testAmount.amount)),
+    );
+  });
 });
