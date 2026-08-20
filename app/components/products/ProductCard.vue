@@ -2,7 +2,7 @@
   import type { Product, ProductVariant } from '~~/types/Products';
   import { useCartStore } from '@store/cart/cart.store';
 
-  defineProps<{
+  const props = defineProps<{
     product: Product;
   }>();
 
@@ -25,6 +25,24 @@
       productLoading.value = false;
     }
   }
+
+  const computedMinVariantPrice = computed(
+    () => props.product.priceRange?.minVariantPrice,
+  );
+
+  function handleMoneyFormat(
+    money: {
+      amount: string;
+      currencyCode: string;
+    } | null,
+  ) {
+    if (!money) return '';
+
+    return Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: money.currencyCode,
+    }).format(parseFloat(money.amount));
+  }
 </script>
 
 <template>
@@ -44,6 +62,11 @@
       <p>{{ product?.title }}</p>
       <p>{{ product?.description }}</p>
       <p class="mt-8 text-xs">{{ product?.handle }}</p>
+      <p>
+        {{ computedMinVariantPrice ?? null }}
+        starts at:
+        {{ handleMoneyFormat(computedMinVariantPrice ?? null) }}
+      </p>
       <NuxtLink :to="`/products/${product.handle}`" class="hover:text-amber-300"
         >view product</NuxtLink
       >
