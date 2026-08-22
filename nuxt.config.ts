@@ -15,10 +15,43 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  alias: {
+    '@': fileURLToPath(new URL('./', import.meta.url)),
+    '@app': fileURLToPath(new URL('./app', import.meta.url)),
+    '@components': fileURLToPath(new URL('./app/components', import.meta.url)),
+    '@pages': fileURLToPath(new URL('./app/pages', import.meta.url)),
+    '@store': fileURLToPath(new URL('./app/stores', import.meta.url)),
+    '@utils': fileURLToPath(new URL('./utils', import.meta.url)),
+  },
+
   compatibilityDate: '2025-07-15',
+
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
+
   css: ['~/assets/styles/app.css', '@fortawesome/fontawesome-svg-core/styles.css'],
+
+  devtools: { enabled: !IS_TESTING_CYPRESS },
+
+  imports: {
+    dirs: ['composables/**'],
+  },
+
   modules: ['@pinia/nuxt', '@nuxtjs/html-validator', '@nuxt/hints'],
+
   runtimeConfig: {
+    public: {
+      appUrl: '',
+    },
+
+    redisHost: process.env.REDIS_HOST || '127.0.0.1',
+    redistPort: process.env.REDIST_PORT || 6379,
+
     // customer/auth
     shopifyClientSecret: '',
     shopifyTokenUrl: '',
@@ -29,20 +62,8 @@ export default defineNuxtConfig({
     // storefront
     shopifyStorefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`,
     shopifyStorefrontToken: '',
-    public: {
-      appUrl: '',
-    },
   },
-  devtools: { enabled: !IS_TESTING_CYPRESS },
-  components: [
-    {
-      path: '~/components',
-      pathPrefix: false,
-    },
-  ],
-  imports: {
-    dirs: ['composables/**'],
-  },
+
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
@@ -71,13 +92,5 @@ export default defineNuxtConfig({
           ? { protocol: 'wss', host: TUNNEL_HOST, clientPort: 443 }
           : false,
     },
-  },
-  alias: {
-    '@': fileURLToPath(new URL('./', import.meta.url)),
-    '@app': fileURLToPath(new URL('./app', import.meta.url)),
-    '@components': fileURLToPath(new URL('./app/components', import.meta.url)),
-    '@pages': fileURLToPath(new URL('./app/pages', import.meta.url)),
-    '@store': fileURLToPath(new URL('./app/stores', import.meta.url)),
-    '@utils': fileURLToPath(new URL('./utils', import.meta.url)),
   },
 });
