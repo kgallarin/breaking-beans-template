@@ -16,9 +16,7 @@ export default defineEventHandler(
     const cachedData = await redis.get(productsCacheKey);
 
     if (cachedData) {
-      console.log(`REDIS: Serving ${productsCacheKey} from cache`);
-
-      setHeader(event, 'X-Cache', 'HIT');
+      setHeader(event, 'X-Cache', 'CACHE-HIT');
       setHeader(event, 'X-Cache-Provider', 'Redis');
       return JSON.parse(cachedData);
     }
@@ -29,7 +27,7 @@ export default defineEventHandler(
       typeof after === 'string' ? after : undefined,
     );
 
-    setHeader(event, 'X-Cache', 'MISS');
+    setHeader(event, 'X-Cache', 'CACHE-MISS');
 
     // 60s expiration
     await redis.set(productsCacheKey, JSON.stringify(products), 'EX', 3600);

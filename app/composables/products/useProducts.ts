@@ -21,8 +21,6 @@ export function useProducts(first = 4) {
     productsUrl,
     (payload: ProductsPayload): ShopifyConnection<Product> => payload.products,
     {
-      server: false,
-      lazy: true,
       query: computed(() => ({
         first,
         after: after.value ?? undefined,
