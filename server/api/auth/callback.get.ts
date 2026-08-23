@@ -1,4 +1,4 @@
-import type { ShopifyApiError, ShopifyOAuthError } from '@/types/Shopify';
+import type { ShopifyOAuthError } from '@/types/Shopify';
 import type { H3Event } from 'h3';
 
 export default defineEventHandler(async (event: H3Event) => {
