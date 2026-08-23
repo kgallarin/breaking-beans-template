@@ -37,9 +37,7 @@
         class="mx-auto my-12 block w-fit"
         @click.prevent.stop="loadMore"
       >
-        <template>
-          {{ loading ? 'Loading' : 'Load more products' }}
-        </template>
+        {{ loading ? 'Loading' : 'Load more products' }}
       </base-button>
     </div>
   </div>
