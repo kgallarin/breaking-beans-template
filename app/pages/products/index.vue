@@ -23,6 +23,7 @@
       {{ fetchError }}
       {{ graphqlErrors }}
     </div>
+    <NuxtImg datasrc="" fetchpriority loading="eager"></NuxtImg>
     <div class="w-full">
       <div v-if="products" class="grid grid-cols-4 gap-4 py-4">
         <template v-for="product in products" :key="product?.id">
@@ -36,7 +37,9 @@
         class="mx-auto my-12 block w-fit"
         @click.prevent.stop="loadMore"
       >
-        {{ loading ? 'Loading' : 'Load more products' }}
+        <template #default="{ loading }">
+          {{ loading ? 'Loading' : 'Load more products' }}
+        </template>
       </base-button>
     </div>
   </div>

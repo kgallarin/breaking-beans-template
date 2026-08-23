@@ -3,6 +3,7 @@ import { createHash, randomBytes } from 'node:crypto';
 import type { H3Event } from 'h3';
 
 export default defineEventHandler(async (event: H3Event): Promise<void> => {
+  // this is the first phase where CVC happens
   const config = useRuntimeConfig(event);
 
   const codeVerifier = randomBytes(32).toString('base64url');
@@ -23,9 +24,11 @@ export default defineEventHandler(async (event: H3Event): Promise<void> => {
     maxAge: 600, // s = 10mins
   };
 
+  // we create the cookies for the Code Exchange later
   setCookie(event, 'shopify_oauth_state', state, cookieSetupOptions);
   setCookie(event, 'shopify_code_verifier', codeVerifier, cookieSetupOptions);
 
+  // parameters we will use to send the hashed code to the login
   const params = new URLSearchParams({
     client_id: config.shopifyClientId,
     redirect_uri: redirectUri,
@@ -36,5 +39,6 @@ export default defineEventHandler(async (event: H3Event): Promise<void> => {
     state, // csrf protection token — also serves as the storage key
   });
 
+  // login url or auth
   return sendRedirect(event, `${config.shopifyAuthUrl}?${params.toString()}`);
 });
