@@ -23,7 +23,6 @@
       {{ fetchError }}
       {{ graphqlErrors }}
     </div>
-    <NuxtImg datasrc="" fetchpriority loading="eager"></NuxtImg>
     <div class="w-full">
       <div v-if="products" class="grid grid-cols-4 gap-4 py-4">
         <template v-for="product in products" :key="product?.id">
