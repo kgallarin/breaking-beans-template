@@ -38,3 +38,8 @@ export interface MoneyV2 {
   amount: string;
   currencyCode: string;
 }
+
+export interface ShopifyOAuthError {
+  error: string;
+  error_description: string;
+}
