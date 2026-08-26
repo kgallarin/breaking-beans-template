@@ -32,6 +32,7 @@
 
       <base-button
         v-if="pageInfo?.hasNextPage"
+        data-testid="load-more-products"
         :disabled="loading"
         class="mx-auto my-12 block w-fit"
         @click.prevent.stop="loadMore"

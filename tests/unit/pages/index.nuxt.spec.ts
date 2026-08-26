@@ -1,11 +1,11 @@
 import { renderSuspended } from '@nuxt/test-utils/runtime';
-import home from '@pages/index.vue';
+import Home from '@pages/index.vue';
 import '@testing-library/jest-dom';
 import type { RenderResult } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 
 const renderHomePage = async (): Promise<RenderResult> => {
-  return renderSuspended(home, {
+  return renderSuspended(Home, {
     global: {},
   });
 };
