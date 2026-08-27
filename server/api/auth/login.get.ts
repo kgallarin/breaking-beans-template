@@ -3,7 +3,6 @@ import { createHash, randomBytes } from 'node:crypto';
 import type { H3Event } from 'h3';
 
 export default defineEventHandler(async (event: H3Event): Promise<void> => {
-  // this is the first phase where CVC happens
   const config = useRuntimeConfig(event);
 
   const codeVerifier = randomBytes(32).toString('base64url');
@@ -19,16 +18,14 @@ export default defineEventHandler(async (event: H3Event): Promise<void> => {
   const cookieSetupOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: 'lax' as const, // for literal typing
+    sameSite: 'lax' as const,
     path: '/',
     maxAge: 600, // s = 10mins
   };
 
-  // we create the cookies for the Code Exchange later
   setCookie(event, 'shopify_oauth_state', state, cookieSetupOptions);
   setCookie(event, 'shopify_code_verifier', codeVerifier, cookieSetupOptions);
 
-  // parameters we will use to send the hashed code to the login
   const params = new URLSearchParams({
     client_id: config.shopifyClientId,
     redirect_uri: redirectUri,
@@ -36,7 +33,7 @@ export default defineEventHandler(async (event: H3Event): Promise<void> => {
     scope: 'openid email customer-account-api:full',
     code_challenge: codeChallenge,
     code_challenge_method: 'S256',
-    state, // csrf protection token — also serves as the storage key
+    state,
   });
 
   // login url or auth

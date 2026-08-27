@@ -3,7 +3,6 @@ import type { H3Event } from 'h3';
 export default defineEventHandler(async (event: H3Event) => {
   const config = useRuntimeConfig(event);
 
-  // the server sends back an authorization code
   const { code, state, error: oauthError } = getQuery(event);
 
   if (oauthError) {
@@ -35,7 +34,6 @@ export default defineEventHandler(async (event: H3Event) => {
   deleteCookie(event, 'shopify_oauth_state');
   deleteCookie(event, 'shopify_code_verifier');
 
-  // Exchange the authorization code for tokens (server-to-server)
   const redirectUri = `${config.public.appUrl}/api/auth/callback`;
 
   const tokens = await $fetch<{
@@ -52,7 +50,7 @@ export default defineEventHandler(async (event: H3Event) => {
       client_id: config.shopifyClientId,
       client_secret: config.shopifyClientSecret,
       redirect_uri: redirectUri,
-      code: String(code), // this is where the client will exchange this for an access token by sending the original unhashed code verifier
+      code: String(code),
       code_verifier: codeVerifier,
     }).toString(),
   });
