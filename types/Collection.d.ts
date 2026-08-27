@@ -1,3 +1,4 @@
+import { Product } from '@/types/Products';
 import { ShopifyConnection } from '~~/types/Shopify';
 
 export interface Collection {

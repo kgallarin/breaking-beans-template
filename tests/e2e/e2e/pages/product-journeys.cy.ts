@@ -1,4 +1,4 @@
-describe('', () => {
+describe('E2E Suite- Product User Journeys', () => {
   beforeEach(() => {
     cy.visit('/products');
   });
