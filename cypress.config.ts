@@ -5,7 +5,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3000',
     // pointed to tests/e2e folder
-    specPattern: 'tests/e2e/e2e/**/*.cy.ts',
+    specPattern: 'tests/e2e/scenarios/**/*.cy.ts',
     supportFile: 'tests/e2e/support/e2e.ts',
     fixturesFolder: 'tests/e2e/fixtures',
     viewportHeight: 720,
