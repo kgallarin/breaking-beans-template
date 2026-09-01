@@ -4,6 +4,7 @@ import viteTsConfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3000',
+    chromeWebSecurity: false,
     // pointed to tests/e2e folder
     specPattern: 'tests/e2e/scenarios/**/*.cy.ts',
     supportFile: 'tests/e2e/support/e2e.ts',

@@ -1,7 +1,7 @@
 export abstract class AbstractPageObject {
   protected abstract pageUrl: string;
 
-  visit(routeParams?: URLSearchParams | Record<string, string>) {
+  public visit(routeParams?: URLSearchParams | Record<string, string>) {
     if (routeParams) {
       const query =
         routeParams instanceof URLSearchParams
@@ -12,5 +12,9 @@ export abstract class AbstractPageObject {
     }
 
     return cy.visit(this.pageUrl);
+  }
+
+  public waitFor(alias: string) {
+    cy.wait(`@${alias}`);
   }
 }

@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineNuxtConfig } from 'nuxt/config';
 
 // @todo add to constants
-const IS_TESTING_CYPRESS = process.env.CYPRESS === 'true';
+const IS_TESTING_CYPRESS = process.env.CYPRESS_TEST === 'true';
 const TUNNEL_HOST = process.env.TUNNEL_HOST_APP_URL;
 const USE_TUNNEL = process.env.USE_TUNNEL === 'true';
 export default defineNuxtConfig({
@@ -63,6 +63,8 @@ export default defineNuxtConfig({
     shopifyStorefrontApiUrl: `${process.env.SHOPIFY_BASE_STORE_URL}/api/${process.env.SHOPIFY_API_VERSION}/graphql.json`,
     shopifyStorefrontToken: '',
   },
+
+  ssr: !IS_TESTING_CYPRESS,
 
   vite: {
     plugins: [tailwindcss()],
