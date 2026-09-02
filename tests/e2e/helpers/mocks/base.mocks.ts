@@ -29,4 +29,12 @@ export abstract class AbstractMockHelper {
       })
       .as(alias);
   }
+
+  protected arrangeUrlQuery(
+    params: Record<string, string> | URLSearchParams = {},
+  ): string {
+    return params instanceof URLSearchParams
+      ? params.toString()
+      : new URLSearchParams(params).toString();
+  }
 }

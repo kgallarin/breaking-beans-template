@@ -10,10 +10,7 @@ class ProductMocks extends AbstractMockHelper {
     routeParams: Record<string, string> | URLSearchParams = {},
   ): Cypress.Chainable {
     const products = createProducts(quantity, productOverrides);
-    const query =
-      routeParams instanceof URLSearchParams
-        ? routeParams.toString()
-        : new URLSearchParams(routeParams).toString();
+    const query = this.arrangeUrlQuery(routeParams);
 
     const urlPattern = query
       ? `${API_ENDPOINTS.PRODUCTS.LIST}?${query}*`

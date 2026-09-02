@@ -1,5 +1,13 @@
+import { collectionMocks } from '@/tests/e2e/helpers/mocks/collection.mocks';
+import { collectionPage } from '@/tests/e2e/page-objects/collection.page';
+
 describe('E2E Suite - Collections User Journeys', () => {
-  beforeEach(() => {
-    it('should work', () => {});
+  it('Mounts correct length of collection cards', () => {
+    collectionMocks.mockListCollections(4);
+
+    collectionPage.visit();
+    collectionPage.waitFor('collectionListMock');
+
+    collectionPage.collectionCard.should('have.length', 4);
   });
 });
