@@ -5,6 +5,7 @@ type GetOptions = Partial<
 declare global {
   namespace Cypress {
     // any: global library extension
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     interface Chainable<Subject = any> {
       // custom command for selecting dom attr
       getBySel(dataCyValue: string, options?: GetOptions): Chainable;
