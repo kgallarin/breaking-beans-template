@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { CartLine } from '@/types/Cart';
 
-  const props = withDefaults(
+  withDefaults(
     defineProps<{
       cartLine: CartLine;
     }>(),
@@ -9,9 +9,6 @@
   );
 
   const {
-    itemCount,
-    subTotal,
-    checkOutUrl,
     isLoading,
     handleMoneyFormat,
     handleQuantityChange,
