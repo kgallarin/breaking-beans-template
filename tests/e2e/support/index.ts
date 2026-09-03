@@ -2,12 +2,21 @@ type GetOptions = Partial<
   Cypress.Timeoutable & Cypress.Loggable & Cypress.Withinable & Cypress.Shadow
 >;
 
-declare namespace Cypress {
-  interface Chainable {
-    // custom command for selecting dom attr
-    getBySel(dataCyValue: string, options?: GetOptions): Chainable;
+declare global {
+  namespace Cypress {
+    // any: global library extension
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    interface Chainable<Subject = any> {
+      // custom command for selecting dom attr
+      getBySel(dataCyValue: string, options?: GetOptions): Chainable;
 
-    // intercept storefront graphql by operation name
-    mockShopifyGraphQL(operationName: string, fixturePath: string): Chainable;
+      // intercept storefront graphql by operation name
+      mockShopifyGraphQL(operationName: string, fixturePath: string): Chainable;
+
+      // loginAs
+      loginAsUser(userOverrides?: Record<string, string>): Chainable<Subject>;
+    }
   }
 }
+
+export {};
