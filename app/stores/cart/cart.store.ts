@@ -1,6 +1,6 @@
 import { $fetch } from 'ofetch';
 import { defineStore } from 'pinia';
-import type { Cart } from '~~/types/Cart';
+import type { Cart, CartLine } from '~~/types/Cart';
 import type { MoneyV2 } from '~~/types/Shopify';
 
 export const useCartStore = defineStore('cart', () => {
@@ -15,7 +15,7 @@ export const useCartStore = defineStore('cart', () => {
 
   // getters
   const itemCount = computed((): number => cart.value?.totalQuantity ?? 0);
-  const items = computed(() => cart.value?.lines.nodes ?? []);
+  const items = computed((): CartLine[] | [] => cart.value?.lines.nodes ?? []);
   const subTotal = computed(
     (): MoneyV2 | null => cart.value?.cost.subtotalAmount ?? null,
   );
