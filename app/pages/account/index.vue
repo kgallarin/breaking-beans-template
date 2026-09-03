@@ -1,11 +1,15 @@
 <script setup lang="ts">
   import { useAuthStore } from '~/stores/auth/auth.store';
 
+  definePageMeta({
+    middleware: 'auth',
+    layout: 'default',
+  });
   const { customer, logout } = useAuthStore();
 </script>
 
 <template>
-  <div class="profile p-8">
+  <div data-testid="account-wrapper" class="profile p-8">
     <pre>Hello {{ customer?.firstName }}</pre>
     <p>{{ customer?.emailAddress?.emailAddress }}</p>
 
