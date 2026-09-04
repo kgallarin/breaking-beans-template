@@ -1,4 +1,4 @@
-import { AuthMocks } from '@/tests/e2e/helpers/mocks/auth.mocks';
+import { authMocks } from '@/tests/e2e/helpers/mocks/auth.mocks';
 import { createCustomer } from '@/tests/factories/customer.factory';
 import { Customer } from '@/types/Customer';
 
@@ -22,12 +22,12 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'loginAsUser',
-  (customerOverrides: Record<string, string> = {}): Cypress.Chainable<Customer> => {
+  (customerOverrides: Partial<Customer> = {}): Cypress.Chainable<Customer> => {
     const customer = createCustomer(customerOverrides);
 
     cy.session(
       ['shopify-customer-session', customer.id],
-      () => {
+      (): void => {
         cy.setCookie(
           'shopify_access_token',
           `shcat_mock_${customer.id}_${Date.now()}`,
@@ -52,7 +52,7 @@ Cypress.Commands.add(
       },
     );
 
-    AuthMocks.mockAuthenticatedUser(customer);
+    authMocks.mockAuthenticatedUser(customer);
 
     return cy.wrap(customer);
   },

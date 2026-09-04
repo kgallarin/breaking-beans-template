@@ -8,7 +8,7 @@ const collectionSeeder = (): Collection => {
 
   return {
     id: `gid://shopify/Collection/${faker.number.int({ min: 100000, max: 999999 })}`,
-    title: faker.commerce.productName(),
+    title,
     description: faker.commerce.productDescription(),
     handle,
     updatedAt: faker.date.recent().toDateString(),

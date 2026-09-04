@@ -16,10 +16,12 @@ const customerSeeder = (): Customer => {
     lastName: customer.lastName,
     emailAddress:
       faker.helpers.maybe(
-        () => ({
-          emailAddress: customer.email,
-        }),
-        { probability: 0.6 },
+        () => {
+          return {
+            emailAddress: customer.email,
+          };
+        },
+        { probability: 0.8 },
       ) ?? null,
     phoneNumber:
       faker.helpers.maybe(
