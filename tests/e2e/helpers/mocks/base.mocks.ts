@@ -1,33 +1,40 @@
+import { CyHttpMessages } from 'cypress/types/net-stubbing';
+
 export abstract class AbstractMockHelper {
   protected mockGet<T>(
     url: string,
     body: T,
     statusCode: number,
     alias: string,
-  ): Cypress.Chainable {
-    return cy
-      .intercept('GET', url, {
-        statusCode,
-        body,
-        headers: {
-          'access-control-allow-origin': '*', // Prevents "Not allowed" CORS errors
-        },
-      })
-      .as(alias);
+  ): void {
+    cy.intercept('GET', url, {
+      statusCode,
+      body,
+      headers: {
+        'access-control-allow-origin': '*', // Prevents "Not allowed" CORS errors
+      },
+    }).as(alias);
   }
 
   protected mockPost<T>(
     url: string,
-    body: T,
+    body: T | ((request: CyHttpMessages.IncomingHttpRequest) => void),
     statusCode = 200,
-    alias: string,
+    alias = '',
   ): Cypress.Chainable {
-    return cy
-      .intercept('POST', url, {
+    const interceptor = cy.intercept('POST', url, (request) => {
+      if (typeof body === 'function') {
+        (body as (request: CyHttpMessages.IncomingHttpRequest) => void)(request);
+        return;
+      }
+
+      request.reply({
         statusCode,
         body,
-      })
-      .as(alias);
+      });
+    });
+
+    return alias ? interceptor.as(alias) : interceptor;
   }
 
   protected arrangeUrlQuery(

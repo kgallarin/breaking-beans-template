@@ -8,7 +8,7 @@ class CollectionMocks extends AbstractMockHelper {
     quantity: number = 2,
     collectionOverrides: Partial<Collection> = {},
     routeParams: Record<string, string> | URLSearchParams = {},
-  ): Cypress.Chainable {
+  ): void {
     const collections = createCollections(quantity, collectionOverrides);
     const query = this.arrangeUrlQuery(routeParams);
 

@@ -1,3 +1,5 @@
+import { Customer } from '@/types/Customer';
+
 type GetOptions = Partial<
   Cypress.Timeoutable & Cypress.Loggable & Cypress.Withinable & Cypress.Shadow
 >;
@@ -5,8 +7,8 @@ type GetOptions = Partial<
 declare global {
   namespace Cypress {
     // any: global library extension
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    interface Chainable<Subject = any> {
+     
+    interface Chainable<Subject> {
       // custom command for selecting dom attr
       getBySel(dataCyValue: string, options?: GetOptions): Chainable;
 
@@ -14,7 +16,7 @@ declare global {
       mockShopifyGraphQL(operationName: string, fixturePath: string): Chainable;
 
       // loginAs
-      loginAsUser(userOverrides?: Record<string, string>): Chainable<Subject>;
+      loginAsUser(customerOverrides?: Partial<Customer>): Chainable<Subject>;
     }
   }
 }
