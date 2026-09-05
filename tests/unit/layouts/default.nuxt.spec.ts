@@ -12,7 +12,7 @@ const renderLayoutDefault = async (): Promise<RenderResult> => {
   });
 };
 
-describe('Default layout test suite', (): void => {
+describe('Layout:default - Unit Test Suite', (): void => {
   test('Default layout mounts properly', async (): Promise<void> => {
     const { getByTestId } = await renderLayoutDefault();
 

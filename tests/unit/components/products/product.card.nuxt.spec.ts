@@ -25,7 +25,7 @@ const renderProductCard = async <T extends Record<string, unknown>>(
   });
 };
 
-describe('Product Card Unit Test Suite', (): void => {
+describe('Component:Product Card - Unit Test Suite', (): void => {
   test('It mounts properly', async (): Promise<void> => {
     const { getByTestId } = await renderProductCard();
 

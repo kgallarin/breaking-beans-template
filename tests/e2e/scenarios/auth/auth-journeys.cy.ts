@@ -1,11 +1,10 @@
 import { authMocks } from '@/tests/e2e/helpers/mocks/auth.mocks';
 import { accountPage } from '@/tests/e2e/page-objects/account.page';
 
-describe('E2e - User Journey from Homepage to Login', () => {
+describe('User Journey from Homepage to Login - E2E Test Suite', () => {
   context('Authenticated Journeys', () => {
     it('User can visit /account page and see profile details', () => {
       cy.loginAsUser().then((): void => {
-        // arrange
         cy.visit('/').then(() => {
           accountPage.waitFor('getAuthMe');
 

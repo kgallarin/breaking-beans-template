@@ -7,7 +7,7 @@ import AccountPage from '~/pages/account/index.vue';
 const renderAccountPage = (options = {}) =>
   renderAndInitializeStore(AccountPage, options);
 
-describe('UserProfile.vue - Nuxt Unit Test Suite', (): void => {
+describe('Account Page - Unit Test Suite', (): void => {
   describe('Authenticated User', (): void => {
     beforeEach(() => {
       setupAuthTestStore({
@@ -15,8 +15,11 @@ describe('UserProfile.vue - Nuxt Unit Test Suite', (): void => {
         customer: { firstName: 'John' },
       });
     });
+
     test('Fetches and renders user details via useFetch', async (): Promise<void> => {
-      const { getByTestId } = await renderAccountPage();
+      const { getByTestId } = await renderAccountPage({
+        props: {},
+      });
       const accountWrapper = getByTestId('account-wrapper');
 
       expect(accountWrapper).toBeInTheDocument();
