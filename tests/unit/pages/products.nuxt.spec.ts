@@ -4,11 +4,13 @@ import type { RenderResult } from '@testing-library/vue';
 import { describe, expect, test } from 'vitest';
 
 const renderProductsPage = async (): Promise<RenderResult> => {
-  return renderSuspended(Products, {});
+  return renderSuspended(Products, {
+    props: {},
+  });
 };
 
 describe(() => {
-  test('', async () => {
+  test('Product Page - Test Suite', async (): Promise<void> => {
     const { getByTestId } = await renderProductsPage();
 
     expect(getByTestId('load-more-products')).toBeInTheDocument();

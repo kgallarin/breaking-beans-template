@@ -10,7 +10,7 @@ const renderAppRoot = async (): Promise<RenderResult> => {
   });
 };
 
-describe('App root suite', (): void => {
+describe('App Root - Unit Test Suite', (): void => {
   test('App container div mounts properly', async (): Promise<void> => {
     const { getByTestId } = await renderAppRoot();
 

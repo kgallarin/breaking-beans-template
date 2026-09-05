@@ -26,7 +26,7 @@ const renderCollectionCard = async <T extends Record<string, unknown>>(
   });
 };
 
-describe('Collection Card Test Suite', (): void => {
+describe('Component:Collection Card - Unit Test Suite', (): void => {
   test('It mounts properly', async (): Promise<void> => {
     const { getByTestId } = await renderCollectionCard();
 

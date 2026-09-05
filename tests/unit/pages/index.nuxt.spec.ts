@@ -10,7 +10,7 @@ const renderHomePage = async (): Promise<RenderResult> => {
   });
 };
 
-describe('Homepage Test Suite', (): void => {
+describe('Home Page - Unit Test Suite', (): void => {
   test('Homepage container mounts properly', async (): Promise<void> => {
     const { getByTestId } = await renderHomePage();
 
