@@ -8,7 +8,7 @@ class ProductMocks extends AbstractMockHelper {
     quantity: number = 4,
     productOverrides: Partial<Product> = {},
     routeParams: Record<string, string> | URLSearchParams = {},
-  ): Cypress.Chainable {
+  ): void {
     const products = createProducts(quantity, productOverrides);
     const query = this.arrangeUrlQuery(routeParams);
 
@@ -23,7 +23,8 @@ class ProductMocks extends AbstractMockHelper {
         },
       },
     };
-    return this.mockGet(urlPattern, productsResponse, 200, 'productsListMock');
+
+    this.mockGet(urlPattern, productsResponse, 200, 'productsListMock');
   }
 }
 

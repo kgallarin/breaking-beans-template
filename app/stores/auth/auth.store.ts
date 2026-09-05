@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       // customer.value = await $fetch<Customer>('/api/auth/me');
       const fetchWithHeaders = useRequestFetch();
-      customer.value = await fetchWithHeaders('/api/auth/me');
+      customer.value = await fetchWithHeaders<Customer>('/api/auth/me');
     } catch {
       // not logged in or expired token
       customer.value = null;
