@@ -11,6 +11,6 @@ Cypress.on('uncaught:exception', (err) => {
 });
 
 // tunneling issue
-Cypress.on('uncaught:exception', (err) => {
+Cypress.on('uncaught:exception', (err: Error): boolean => {
   return !(err.message.includes('WebSocket closed') || err.message.includes('HMR'));
 });

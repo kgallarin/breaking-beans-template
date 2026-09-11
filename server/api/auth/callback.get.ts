@@ -36,40 +36,48 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const redirectUri = `${config.public.appUrl}/api/auth/callback`;
 
-  const tokens = await $fetch<{
-    access_token: string;
-    refresh_token: string;
-    expires_in: number;
-  }>(config.shopifyTokenUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      client_id: config.shopifyClientId,
-      client_secret: config.shopifyClientSecret,
-      redirect_uri: redirectUri,
-      code: String(code),
-      code_verifier: codeVerifier,
-    }).toString(),
-  });
+  try {
+    const tokens = await $fetch<{
+      access_token: string;
+      refresh_token: string;
+      expires_in: number;
+    }>(config.shopifyTokenUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: config.shopifyClientId,
+        client_secret: config.shopifyClientSecret,
+        redirect_uri: redirectUri,
+        code: String(code),
+        code_verifier: codeVerifier,
+      }).toString(),
+    });
 
-  setCookie(event, 'shopify_access_token', tokens.access_token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: tokens.expires_in ?? 3600,
-  });
+    setCookie(event, 'shopify_access_token', tokens.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: tokens.expires_in ?? 3600,
+    });
 
-  setCookie(event, 'shopify_refresh_token', tokens.refresh_token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30, // 30d
-  });
+    setCookie(event, 'shopify_refresh_token', tokens.refresh_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 30, // 30d
+    });
 
-  return sendRedirect(event, '/account');
+    return sendRedirect(event, '/account');
+  } catch (e) {
+    const error = e as Error;
+    createError({
+      message: error?.message,
+      status: 401,
+    });
+  }
 });

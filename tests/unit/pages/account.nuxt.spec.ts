@@ -1,5 +1,7 @@
 import { setupAuthTestStore } from '@/tests/unit/support/auth.store.support.ts';
 import { renderAndInitializeStore } from '@/tests/unit/support/render.support.ts';
+import { renderSuspended } from '@nuxt/test-utils/runtime';
+import { createTestingPinia } from '@pinia/testing';
 import '@testing-library/jest-dom';
 import { beforeEach, describe, expect, test } from 'vitest';
 import AccountPage from '~/pages/account/index.vue';

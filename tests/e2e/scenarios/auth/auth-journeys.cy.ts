@@ -34,7 +34,7 @@ describe('User Journey from Homepage to Login - E2E Test Suite', () => {
     });
   });
 
-  context.only('Unauthenticated Journeys', () => {
+  context('Unauthenticated Journeys', () => {
     beforeEach(() => {
       cy.clearCookies();
       cy.clearLocalStorage();
