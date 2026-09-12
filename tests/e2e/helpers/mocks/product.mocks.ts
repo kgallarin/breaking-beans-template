@@ -19,7 +19,9 @@ class ProductMocks extends AbstractMockHelper {
     const productsResponse = {
       data: {
         products: {
-          edges: products.map((product: Product) => ({ node: product })),
+          edges: products.map((product: Product): { node: Product } => ({
+            node: product,
+          })),
         },
       },
     };

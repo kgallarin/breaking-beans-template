@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <li class="flex gap-4 px-6 py-4">
+  <li data-testid="cart-line" class="flex gap-4 px-6 py-4">
     <img
       v-if="cartLine.merchandise.product.featuredImage"
       class="max-w-40"
