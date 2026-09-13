@@ -14,11 +14,12 @@
   const isVariantEmptyErr = ref('');
   async function addToCart() {
     isVariantEmptyErr.value = '';
-    productLoading.value = true;
     if (!selectedVariant.value) {
       isVariantEmptyErr.value = 'Please select product variant.';
       return;
     }
+
+    productLoading.value = true;
     try {
       await cartStore.addItem(selectedVariant.value.id, quantity.value);
     } finally {
@@ -30,19 +31,7 @@
     () => props.product.priceRange?.minVariantPrice,
   );
 
-  function handleMoneyFormat(
-    money: {
-      amount: string;
-      currencyCode: string;
-    } | null,
-  ) {
-    if (!money) return '';
-
-    return Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency: money.currencyCode,
-    }).format(parseFloat(money.amount));
-  }
+  const { handleMoneyFormat } = useCart();
 </script>
 
 <template>

@@ -7,3 +7,5 @@ export type NavLink = {
   badgeValue?: number;
   action?: boolean;
 };
+
+export type DeepPartial<T> = { [P in keyof T]?: Partial<T[P]> };

@@ -1,12 +1,32 @@
+import type { DeepPartial } from '#app/config';
 import { createMoneyV2 } from '@/tests/factories/money.v2.factory.ts';
 import { createProductVariants } from '@/tests/factories/product.variant.factory.ts';
 import type { Product } from '@/types/Products';
 import { faker } from '@faker-js/faker';
 import { defu } from 'defu';
 
-const productSeeder = (): Product => {
+const productSeeder = (isTemplateType: boolean = false): Product => {
   const title = faker.commerce.productName();
   const handle = faker.helpers.slugify(title);
+
+  if (isTemplateType) {
+    return {
+      id: '',
+      title: '',
+      handle: '',
+      description: '',
+      featuredImage: {
+        url: '',
+        altText: '',
+      },
+      priceRange: {
+        minVariantPrice: createMoneyV2({}, true),
+      },
+      variants: {
+        nodes: createProductVariants(3),
+      },
+    };
+  }
 
   return {
     id: `gid://shopify/Product/${faker.number.int({ min: 100000, max: 999999 })}`,
@@ -26,12 +46,17 @@ const productSeeder = (): Product => {
   };
 };
 
-export const createProduct = (overrides?: Partial<Product>): Product =>
-  defu(overrides, productSeeder()) as Product;
+export const createProduct = (
+  overrides?: DeepPartial<Product>,
+  isTemplateType: boolean = false,
+): Product => defu(overrides, productSeeder(isTemplateType)) as Product;
 
 export const createProducts = (
   quantity: number,
-  overrides?: Partial<Product>,
+  overrides?: DeepPartial<Product>,
+  isTemplateType: boolean = false,
 ): Product[] => {
-  return Array.from({ length: quantity }, () => createProduct(overrides));
+  return Array.from({ length: quantity }, () =>
+    createProduct(overrides, isTemplateType),
+  );
 };
