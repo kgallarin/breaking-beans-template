@@ -1,6 +1,7 @@
+import { createCartLine } from '@/tests/factories/cart.line.factory.ts';
 import { $fetch } from 'ofetch';
 import { defineStore } from 'pinia';
-import type { Cart, CartLine } from '~~/types/Cart';
+import type { Cart, CartLine, OptimisticCartLine } from '~~/types/Cart';
 import type { MoneyV2 } from '~~/types/Shopify';
 
 export const useCartStore = defineStore('cart', () => {
@@ -13,13 +14,46 @@ export const useCartStore = defineStore('cart', () => {
   // @todo: make loading plugin
   const isLoading = ref(false);
 
+  const pendingLineIds = ref<Set<string>>(new Set());
+
   // getters
   const itemCount = computed((): number => cart.value?.totalQuantity ?? 0);
-  const items = computed((): CartLine[] | [] => cart.value?.lines.nodes ?? []);
+  const checkOutUrl = computed((): string | null => cart.value?.checkoutUrl ?? null);
+
+  const items = computed((): OptimisticCartLine[] =>
+    (cart.value?.lines.nodes ?? []).map((line: CartLine) => ({
+      ...line,
+      optimistic: pendingLineIds.value.has(line.id),
+    })),
+  );
+
   const subTotal = computed(
     (): MoneyV2 | null => cart.value?.cost.subtotalAmount ?? null,
   );
-  const checkOutUrl = computed((): string | null => cart.value?.checkoutUrl ?? null);
+
+  const hasAnyPendingLine = computed(() => pendingLineIds.value.size > 0);
+
+  function buildOptimisticCartLine(
+    tempId: string,
+    merchandiseId: string,
+    quantity: number,
+    currencyCode: string = 'PHP',
+  ): CartLine {
+    return createCartLine(
+      {
+        id: tempId,
+        quantity,
+        cost: {
+          totalAmount: { currencyCode },
+        },
+        merchandise: {
+          id: merchandiseId,
+          price: { currencyCode },
+        },
+      },
+      true,
+    );
+  }
 
   // helpers
 
@@ -78,11 +112,10 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   async function addItem(merchandiseId: string, quantity = 1): Promise<void> {
-    isLoading.value = true;
-
-    try {
-      // if first add:item
-      if (!cartId.value) {
+    if (!cartId.value) {
+      isLoading.value = true;
+      try {
+        // if first add:item
         cart.value = await $fetch<Cart>(`/api/cart`, {
           method: 'POST',
           body: {
@@ -96,27 +129,84 @@ export const useCartStore = defineStore('cart', () => {
         });
         // persist/save for future sessions
         persistCartId(cart.value.id);
-      } else {
-        const { cartShortId, cartKeyParams } = splitCartRouteParams();
-        cart.value = await $fetch<Cart>(
-          `/api/cart/${cartShortId}/lines?${cartKeyParams}`,
-          {
-            method: 'POST',
-            body: {
-              cartId: cartId.value,
-              lines: [
-                {
-                  merchandiseId,
-                  quantity,
-                },
-              ],
-            },
-          },
+      } finally {
+        isLoading.value = false;
+      }
+      return;
+    }
+
+    // unique, non-shopify GID
+    const tempCartId = `oprimistic-${Date.now()}-${Math.random()}`;
+
+    // save
+    const previousCart = structuredClone(toRaw(cart.value));
+
+    try {
+      if (cart.value) {
+        // add placeholder to local arr
+        const optimisticCartLine = buildOptimisticCartLine(
+          tempCartId,
+          merchandiseId,
+          quantity,
         );
+
+        cart.value.lines.nodes.push(optimisticCartLine);
+
+        // update item count as well
+        cart.value.totalQuantity += quantity;
+
+        // mark temp Id as pending for loader
+        pendingLineIds.value.add(tempCartId);
+
+        try {
+          const { cartShortId, cartKeyParams } = splitCartRouteParams();
+          // sync with server
+
+          // replace optimistic state with real server state, actual cartLine.id, correct price etc.
+          cart.value = await $fetch<Cart>(
+            `api/cart/${cartShortId}/lines?${cartKeyParams}`,
+            {
+              method: 'POST',
+              body: {
+                cartId: cartId.value,
+                lines: [
+                  {
+                    merchandiseId,
+                    quantity,
+                  },
+                ],
+              },
+            },
+          );
+        } catch (error) {
+          cart.value = previousCart;
+          throw error;
+        } finally {
+          pendingLineIds.value.delete(tempCartId);
+        }
       }
     } finally {
       isLoading.value = false;
     }
+
+    // else {
+    //   const { cartShortId, cartKeyParams } = splitCartRouteParams();
+    //   cart.value = await $fetch<Cart>(
+    //     `/api/cart/${cartShortId}/lines?${cartKeyParams}`,
+    //     {
+    //       method: 'POST',
+    //       body: {
+    //         cartId: cartId.value,
+    //         lines: [
+    //           {
+    //             merchandiseId,
+    //             quantity,
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   );
+    // }
   }
 
   async function updateItem(lineId: string, quantity: number): Promise<void> {
@@ -183,6 +273,7 @@ export const useCartStore = defineStore('cart', () => {
     items,
     subTotal,
     checkOutUrl,
+    hasAnyPendingLine,
 
     // actions
     init,

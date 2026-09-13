@@ -36,3 +36,7 @@ export interface CartUserError {
   field: string[] | null;
   message: string;
 }
+
+interface OptimisticCartLine extends CartLine {
+  optimistic: boolean;
+}
