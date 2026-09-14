@@ -89,6 +89,7 @@
                   ? 'border-black bg-gray-900 text-white'
                   : 'border-gray-300 bg-white text-blue-900',
               ]"
+              :disabled="!variant.availableForSale"
               @click.prevent.stop="selectedVariant = variant"
             >
               {{ variant.title }}
