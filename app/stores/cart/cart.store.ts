@@ -1,4 +1,5 @@
 import { createCartLine } from '@/tests/factories/cart.line.factory.ts';
+import { createMoneyV2 } from '@/tests/factories/money.v2.factory.ts';
 import { $fetch } from 'ofetch';
 import { defineStore } from 'pinia';
 import type { Cart, CartLine, OptimisticCartLine } from '~~/types/Cart';
@@ -210,14 +211,40 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   async function updateItem(lineId: string, quantity: number): Promise<void> {
-    if (!cartId.value) return;
-    isLoading.value = true;
+    if (!cartId.value || !cart.value) return;
 
     // if request quantity to 0, removeItem
     if (quantity <= 0) {
       await removeItem(lineId);
       return;
     }
+
+    // find updating line
+    const cartLine = cart.value.lines.nodes.find(
+      (line: CartLine) => line.id === lineId,
+    );
+    if (!cartLine) return;
+
+    // save previous cart state
+    const previousCartState = structuredClone(toRaw(cart.value));
+    const previousQuantity = cartLine.quantity;
+
+    // optimistic change, update
+    cartLine.quantity = quantity;
+
+    // re-calculate line's cost estimate, may have discount
+
+    const unitPrice = parseFloat(cartLine.merchandise.price.amount);
+    cartLine.cost.totalAmount = createMoneyV2({
+      amount: (unitPrice * quantity).toFixed(2),
+      currencyCode: cartLine.merchandise.price.currencyCode,
+    });
+
+    // update optimistic quantity
+    cart.value.totalQuantity += quantity - previousQuantity;
+
+    // mark pending for skeletor (optimistic loader)
+    pendingLineIds.value.add(lineId);
 
     try {
       const { cartShortId, cartKeyParams } = splitCartRouteParams();
@@ -236,8 +263,12 @@ export const useCartStore = defineStore('cart', () => {
           },
         },
       );
+    } catch (error) {
+      // rollback if has issues
+      cart.value = previousCartState;
+      throw error;
     } finally {
-      isLoading.value = false;
+      pendingLineIds.value.delete(lineId);
     }
   }
 
