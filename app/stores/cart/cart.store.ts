@@ -189,25 +189,6 @@ export const useCartStore = defineStore('cart', () => {
     } finally {
       isLoading.value = false;
     }
-
-    // else {
-    //   const { cartShortId, cartKeyParams } = splitCartRouteParams();
-    //   cart.value = await $fetch<Cart>(
-    //     `/api/cart/${cartShortId}/lines?${cartKeyParams}`,
-    //     {
-    //       method: 'POST',
-    //       body: {
-    //         cartId: cartId.value,
-    //         lines: [
-    //           {
-    //             merchandiseId,
-    //             quantity,
-    //           },
-    //         ],
-    //       },
-    //     },
-    //   );
-    // }
   }
 
   async function updateItem(lineId: string, quantity: number): Promise<void> {
@@ -273,9 +254,24 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   async function removeItem(lineId: string): Promise<void> {
-    if (!cartId.value) return;
-    isLoading.value = true;
+    if (!cartId.value || !cart.value) return;
 
+    const previousCartState = structuredClone(toRaw(cart.value));
+
+    // find updating line
+    const cartLineIndex = cart.value.lines.nodes.findIndex(
+      (line: CartLine) => line.id === lineId,
+    );
+    if (cartLineIndex === -1) return;
+
+    const removedCartLine = cart.value.lines.nodes[cartLineIndex];
+    if (!removedCartLine) return;
+
+    // optimistic change, splice arr
+    cart.value.lines.nodes.splice(cartLineIndex, 1);
+    cart.value.totalQuantity -= removedCartLine.quantity;
+
+    isLoading.value = true;
     try {
       const { cartShortId, cartKeyParams } = splitCartRouteParams();
       cart.value = await $fetch<Cart>(
@@ -288,6 +284,9 @@ export const useCartStore = defineStore('cart', () => {
           },
         },
       );
+    } catch (error) {
+      cart.value = previousCartState;
+      throw error;
     } finally {
       isLoading.value = false;
     }
